@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, SornA! ✨</title>
+
+    <!-- Tailwind CSS CDN for high-end structured layouts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Playfair Display, Poppins, Great Vibes, and organic Caveat for handwriting -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
+    <!-- Premium Frameworks: Three.js (3D Particles), GSAP (Physics Animations), Canvas Confetti -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. PREMIUM DESIGN TOKENS & RESET RULES
+           ========================================================================== */
+        :root {
+            --primary-rose: #ff4d79;
+            --rose-gold-dark: #b88b90;
+            --rose-gold-gradient: linear-gradient(135deg, #ffcce0 0%, #ff85a1 50%, #ff4d79 100%);
+            --cocoa-dark: #3d2314;
+            --cocoa-medium: #6e473b;
+            --cocoa-black: #23120a;
+            --cream-bg: #fbf5f2;
+            --glass-bg: rgba(251, 245, 242, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 15px 35px rgba(110, 71, 59, 0.12);
+            --transition-luxury: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cream-bg);
+            color: var(--cocoa-dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* CUSTOM SCROLLBAR FOR GOURMET INTERFACE */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--cream-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--rose-gold-dark);
+            border-radius: 10px;
+        }
+
+        /* LIQUID AURORA BACKGROUND SYSTEM */
+        .aurora-viewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            width: 75vw;
+            height: 75vw;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.45;
+            mix-blend-mode: multiply;
+            animation: floatGently 25s infinite alternate ease-in-out;
+        }
+
+        .blob-rose {
+            background: var(--primary-rose);
+            top: -15%;
+            left: -10%;
+            animation-duration: 22s;
+        }
+
+        .blob-cream {
+            background: #fceade;
+            bottom: -20%;
+            right: -10%;
+            animation-duration: 28s;
+        }
+
+        .blob-gold {
+            background: #f5d0c5;
+            top: 35%;
+            right: -15%;
+            animation-duration: 20s;
+        }
+
+        .blob-lavender {
+            background: #e2daeb;
+            bottom: 25%;
+            left: -15%;
+            animation-duration: 30s;
+        }
+
+        @keyframes floatGently {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(8%, 12%) scale(1.12) rotate(90deg); }
+            100% { transform: translate(-5%, -5%) scale(0.9) rotate(180deg); }
+        }
+
+        /* LAYER 2: Particles Canvas overlay */
+        #three-canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* LAYER 3: Ambient Background Bright 3D-Style Hearts (Behind Content Cards) */
+        #ambient-heart-viewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .ambient-heart {
+            position: absolute;
+            bottom: -80px;
+            animation: floatUpAmbient 16s linear forwards;
+            opacity: 0;
+            filter: drop-shadow(0 4px 12px rgba(255, 77, 121, 0.45));
+        }
+
+        @keyframes floatUpAmbient {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.75;
+            }
+            85% {
+                opacity: 0.75;
+            }
+            100% {
+                transform: translateY(-120vh) translateX(var(--drift)) rotate(var(--rotation)) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* PREMIUM GLASSMORPHISM SYSTEM */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: var(--glass-shadow);
+            will-change: opacity; /* Optimizes browser composition pipeline */
+        }
+
+        .luxury-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            background: linear-gradient(to right, #4a2818, #9e6457, #4a2818);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .cursive-title {
+            font-family: 'Great Vibes', cursive;
+            color: var(--rose-gold-dark);
+        }
+
+        /* METALLIC ROSE GOLD BUTTONS WITH GLOWS */
+        .btn-luxury {
+            background: var(--rose-gold-gradient);
+            color: var(--cocoa-black);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(226, 176, 167, 0.4);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            transition: var(--transition-luxury);
+        }
+
+        .btn-luxury:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(226, 176, 167, 0.7);
+        }
+
+        .btn-luxury:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Steady Luxury Glow on first page Yes Button */
+        .btn-enter-glow {
+            box-shadow: 0 0 25px rgba(255, 133, 161, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            background: var(--rose-gold-gradient);
+            color: var(--cocoa-black);
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           2. DECORATIVE CANOPY ELEMENTS (TOP & SIDE CURTAINS - LIGHT GLOW)
+           ========================================================================== */
+        #fairy-lights-wire {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+        }
+
+        #fairy-lights-wire.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Soft, Light Glowing Crystal Beads & Vines (Elegant Glassmorphic Look) */
+        .decor-crystal {
+            width: 10px;
+            height: 16px;
+            background: radial-gradient(circle at 35% 35%, #ffffff 30%, rgba(251, 203, 201, 0.6) 70%, rgba(184, 139, 144, 0.15) 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 2px 4px rgba(184, 139, 144, 0.15);
+            animation: pulseCrystal 1.8s infinite alternate ease-in-out;
+            transform-origin: center;
+        }
+
+        /* Dynamic asynchronous pulse offsets */
+        .decor-crystal:nth-child(3n) { animation-delay: 0.3s; animation-duration: 1.2s; }
+        .decor-crystal:nth-child(3n+1) { animation-delay: 0.6s; animation-duration: 1.8s; }
+        .decor-crystal:nth-child(3n+2) { animation-delay: 0.9s; animation-duration: 1.5s; }
+
+        /* Delicate Glowing Top Pendants */
+        .crystal-pendant {
+            width: 11px;
+            height: 22px;
+            background: radial-gradient(circle at 35% 35%, #ffffff 35%, rgba(251, 203, 201, 0.65) 75%, rgba(184, 139, 144, 0.2) 100%);
+            border-radius: 0 50% 50% 50% / 0 50% 50% 50%;
+            transform: rotate(45deg);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 6px rgba(184, 139, 144, 0.2);
+            animation: pulseCrystal 2s infinite alternate ease-in-out;
+        }
+
+        .decor-wire-line {
+            width: 1.5px;
+            background: linear-gradient(to bottom, rgba(110, 71, 59, 0.15) 0%, rgba(110, 71, 59, 0.05) 80%, transparent 100%);
+            flex-grow: 1;
+            margin: 2px 0;
+        }
+
+        .decor-strand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        @keyframes pulseCrystal {
+            0% { 
+                opacity: 0.5; 
+                transform: scale(0.9) rotate(2deg); 
+                filter: drop-shadow(0 0 4px rgba(251, 203, 201, 0.35)); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1.1) rotate(-2deg); 
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); 
+            }
+        }
+
+        #balloon-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 998;
+            overflow: hidden;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 70px;
+            height: 85px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            box-shadow: inset -5px -10px 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.06);
+            animation: floatUp 8.5s linear forwards;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            width: 14px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .balloon::before {
+            content: '🎈';
+            position: absolute;
+            bottom: -22px;
+            left: 50%;
+            transform: translateX(-50%) scaleY(0.7);
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(-120vh) translateX(var(--drift)) rotate(var(--rotation)); opacity: 0; }
+        }
+
+        /* Beating Gatekeeper Heart Icon */
+        .digital-heart {
+            animation: heartPulse 1.2s infinite alternate cubic-bezier(0.25, 0.8, 0.25, 1);
+            filter: drop-shadow(0 0 25px rgba(251, 203, 201, 0.85));
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.18); }
+        }
+
+        /* ==========================================================================
+           3. PROCEDURAL CHOCOLATE CAKE ASSEMBLY STYLES & INTERACTION
+           ========================================================================== */
+        .cake-stage {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Base Plate */
+        .porcelain-plate {
+            position: absolute;
+            bottom: 40px;
+            width: 280px;
+            height: 22px;
+            background: radial-gradient(circle at 50% 20%, #ffffff 0%, #f3ede9 65%, #dfd5cf 100%);
+            border-radius: 50%;
+            border: 2px solid #dfb76c;
+            box-shadow: 0 12px 30px rgba(61, 35, 20, 0.18);
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.2);
+        }
+
+        /* Dynamic drop-down animation states on load */
+        .cake-layer {
+            opacity: 0;
+            transform: translateY(-260px);
+        }
+
+        /* Cake whole setup container */
+        .cake-whole {
+            position: absolute;
+            bottom: 50px;
+            width: 190px;
+            height: 110px;
+            z-index: 15;
+            transition: var(--transition-luxury);
+        }
+
+        /* Cocoa Sponge base */
+        .sponge-tier {
+            position: absolute;
+            width: 100%;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .sponge-base {
+            bottom: 0;
+            height: 110px;
+            background: var(--cocoa-dark);
+            box-shadow: inset 0 -15px 0 var(--cocoa-black);
+        }
+
+        .mousse-cream-fill {
+            bottom: 35px;
+            width: 100%;
+            height: 15px;
+            background: #bf917f; /* Milk chocolate mousse layer */
+            position: absolute;
+            box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
+        }
+
+        /* Rich Glazing dripping design */
+        .glaze-fudge-drips {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            fill: var(--cocoa-black);
+            filter: drop-shadow(0 3px 4px rgba(35, 18, 10, 0.6));
+        }
+
+        .glaze-shine {
+            position: absolute;
+            top: 6px;
+            left: 15px;
+            width: 50px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+
+        /* Topping Cream Drops */
+        .topping-drop {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        /* High-End Redesigned Candle stick and flame */
+        .candle-container {
+            position: absolute;
+            bottom: 155px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-200px);
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            cursor: pointer;
+            transition: var(--transition-luxury);
+        }
+
+        .candle-stick {
+            width: 8px;
+            height: 42px;
+            background: repeating-linear-gradient(45deg, var(--primary-rose), var(--primary-rose) 6px, #ffffff 6px, #ffffff 12px);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* High-fidelity Vector Flame */
+        .candle-flame-wrapper {
+            position: relative;
+            width: 24px;
+            height: 32px;
+            margin-bottom: 2px;
+        }
+
+        .candle-flame {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 14px;
+            height: 26px;
+            background: radial-gradient(circle at center bottom, #ffffff 10%, #ffeb60 40%, #ff7700 80%, #ff2a00 100%);
+            border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+            box-shadow: 0 0 15px rgba(255, 120, 0, 0.9), 0 0 30px rgba(255, 50, 0, 0.6);
+            transform-origin: bottom center;
+        }
+
+        .candle-halo {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 38px;
+            height: 38px;
+            background: radial-gradient(circle, rgba(255, 170, 0, 0.25) 0%, rgba(255, 170, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            transform-origin: center;
+        }
+
+        /* Active ignited flame state */
+        .candle-container.active-flame .candle-flame {
+            animation: flickerAnimation 0.65s ease-in-out infinite alternate, popUpFlame 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .candle-container.active-flame .candle-halo {
+            animation: pulseHalo 1.5s infinite alternate ease-in-out, popUpHalo 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes popUpFlame {
+            0% { transform: translateX(-50%) scale(0); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes popUpHalo {
+            0% { transform: translateX(-50%) scale(0); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes flickerAnimation {
+            0% { transform: translateX(-50%) scale(1) rotate(-1.5deg); }
+            50% { transform: translateX(-50%) scale(1.06) rotate(1deg) skewX(-1deg); }
+            100% { transform: translateX(-50%) scale(0.96) rotate(-0.5deg) skewX(1deg); }
+        }
+
+        @keyframes pulseHalo {
+            0% { opacity: 0.6; transform: translateX(-50%) scale(0.95); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.15); }
+        }
+
+        /* Blowout smoke path animation styling */
+        .smoke-puff {
+            position: absolute;
+            top: -20px;
+            width: 24px;
+            height: 60px;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        .smoke-line {
+            stroke: rgba(140, 140, 140, 0.45);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            fill: none;
+            stroke-dasharray: 80;
+            stroke-dashoffset: 80;
+        }
+
+        /* Extinguished Blowout Action */
+        .candle-container.extinguished .candle-flame,
+        .candle-container.extinguished .candle-halo {
+            transform: translateX(-50%) scale(0) !important;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           4. WIDGETS & SCRATCH-OFF CARD
+           ========================================================================== */
+        .reasons-jar-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 8px 0;
+            text-align: center;
+        }
+
+        /* HTML5 Scratch Card elements */
+        .scratch-card-box {
+            position: relative;
+            width: 290px;
+            height: 160px;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 25px rgba(110, 71, 59, 0.15);
+        }
+
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            cursor: pointer;
+            touch-action: none;
+        }
+
+        .scratch-reward {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #fff6f3 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        /* Unlocked Envelope card sliding layers */
+        .envelope-container {
+            width: 100%;
+            max-width: 600px;
+            perspective: 1000px;
+        }
+
+        .letter-card {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 1.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
+        }
+
+        .letter-card.unfolded {
+            max-height: 1200px;
+            opacity: 1;
+            padding: 40px;
+        }
+
+        .toast-notif-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast-bubble {
+            background: rgba(35, 18, 10, 0.95);
+            color: var(--cream-bg);
+            border-radius: 40px;
+            padding: 14px 24px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            transform: translateY(80px);
+            opacity: 0;
+            pointer-events: auto;
+            transition: var(--transition-luxury);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast-bubble.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Interactive Heart Particle Explosion */
+        .heart-particle {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0.2) translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.3) translate(var(--mx), var(--my)) rotate(var(--mr)); opacity: 0; }
+        }
+
+        /* ==========================================================================
+           ORIGINAL POPULAR GLASS LOVE JAR (Filled with Paper Letters - Half Filled)
+           ========================================================================== */
+        .love-jar {
+            width: 130px;
+            height: 170px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top: 4px solid rgba(255,255,255,0.5);
+            border-radius: 35px 35px 45px 45px / 20px 20px 25px 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset -10px -10px 20px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+            position: relative;
+            /* Non-clickable cursor style to signal SornA to use the button instead */
+            cursor: default;
+            transition: var(--transition-luxury);
+        }
+
+        .love-jar:hover {
+            transform: scale(1.02);
+        }
+
+        .love-jar::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 12px;
+            background: #fceade;
+            border-radius: 6px;
+            border: 1.5px solid rgba(255,255,255,0.5);
+        }
+
+        .jar-ribbon {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 10px;
+            background: #ff4d79;
+            border-radius: 3px;
+            z-index: 15;
+        }
+
+        .jar-ribbon::after {
+            content: '🎀';
+            position: absolute;
+            font-size: 13px;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 16;
+        }
+
+        /* Miniature romantic paper letters layered at the bottom half of the jar */
+        .mini-envelope-in-jar {
+            position: absolute;
+            width: 32px;
+            height: 20px;
+            background: #ffffff;
+            border: 1px solid rgba(223, 183, 108, 0.3);
+            border-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            z-index: 5;
+            transform-origin: bottom center;
+        }
+        
+        .env-pink { background: #ffe5ec; border-color: rgba(255, 77, 121, 0.25); }
+        .env-gold { background: #fff2cc; border-color: rgba(223, 183, 108, 0.25); }
+        .env-lavender { background: #f3e5f5; border-color: rgba(184, 139, 144, 0.25); }
+        .env-cream { background: #faf8f5; border-color: rgba(110, 71, 59, 0.2); }
+
+        /* Elegant handwritten physical notes slip styling */
+        .handwritten-slip-container {
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .handwritten-slip {
+            width: 100%;
+            background-color: #fffdf0; /* Soft vintage warm paper */
+            padding: 30px 24px 24px 50px;
+            color: #3a2e2b;
+            font-family: 'Caveat', cursive;
+            font-size: 1.55rem;
+            line-height: 28px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 12px 30px rgba(61, 35, 20, 0.12);
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; /* Irregular hand-torn edge */
+            border: 1px solid rgba(223, 183, 108, 0.3);
+            
+            /* Notebook ruled paper lines */
+            background-image: linear-gradient(rgba(174, 219, 255, 0.35) 1px, transparent 1px);
+            background-size: 100% 28px;
+            background-position: 0 12px;
+            transform-origin: center;
+            opacity: 0;
+            transform: scale(0) rotate(-5deg);
+        }
+
+        /* Red margin line on notebook */
+        .handwritten-slip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 40px;
+            width: 1px;
+            height: 100%;
+            background-color: rgba(255, 120, 120, 0.45);
+        }
+
+        /* Tiny heart sticker holding down the note */
+        .handwritten-sticker {
+            position: absolute;
+            top: -12px;
+            left: 45%;
+            transform: translateX(-50%) rotate(-5deg);
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #ff85a1 0%, #ff4d79 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 3px 6px rgba(255, 77, 121, 0.3);
+            z-index: 10;
+        }
+
+        .polaroid-wrapper { perspective: 1000px; }
+        .polaroid-card {
+            background: #ffffff;
+            color: #1c1917;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transform-style: preserve-3d;
+            transform: rotateX(2deg) rotateY(-2deg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LAYER 1: Dynamic breathing gradients background -->
+    <div class="aurora-viewport">
+        <div class="aurora-blob blob-rose"></div>
+        <div class="aurora-blob blob-cream"></div>
+        <div class="aurora-blob blob-gold"></div>
+        <div class="aurora-blob blob-lavender"></div>
+    </div>
+
+    <!-- LAYER 2: Particle field renderer overlay -->
+    <div id="three-canvas-container"></div>
+
+    <!-- LAYER 3: Ambient Background Bright 3D-Style Hearts Viewport -->
+    <div id="ambient-heart-viewport"></div>
+
+    <!-- Background sound elements (Custom Direct loop track) -->
+    <audio id="ambient-audio" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- CUSTOM VOICE AUDIO FILE HOLDER -->
+    <audio id="birthday-voice" preload="auto">
+        <source src="path-to-your-recorded-voice.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Balloons simulator background space -->
+    <div id="balloon-container"></div>
+
+    <!-- Fixed asynchronous Canopy (Wire + Left Curtain + Right Curtain) -->
+    <div id="fairy-lights-wire">
+        <!-- Top Wire Swag -->
+        <svg class="absolute top-0 left-0 w-full h-[50px] pointer-events-none" viewBox="0 0 1440 50" preserveAspectRatio="none">
+            <path d="M0,5 Q180,35 360,5 T720,5 T1080,5 T1440,5" fill="none" stroke="rgba(110, 71, 59, 0.15)" stroke-width="1.5"/>
+        </svg>
+        <div class="flex justify-around px-10 pt-2 absolute top-0 w-full">
+            <div class="crystal-pendant"></div><div class="crystal-pendant"></div>
+            <div class="crystal-pendant"></div><div class="crystal-pendant"></div>
+            <div class="crystal-pendant"></div><div class="crystal-pendant"></div>
+            <div class="crystal-pendant"></div><div class="crystal-pendant"></div>
+        </div>
+
+        <!-- LEFT SIDE CASCADE STRING (Stopped exactly at 50vh) -->
+        <div class="absolute left-0 top-0 h-[50vh] w-12 md:w-24 flex justify-between px-2 md:px-4 pt-12">
+            <!-- Strand 1 (Longest) -->
+            <div class="decor-strand h-[100%]">
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+            </div>
+            <!-- Strand 2 (Medium) -->
+            <div class="decor-strand h-[75%]">
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+            </div>
+            <!-- Strand 3 (Shortest) -->
+            <div class="decor-strand h-[50%]">
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE CASCADE STRING (Stopped exactly at 50vh) -->
+        <div class="absolute right-0 top-0 h-[50vh] w-12 md:w-24 flex justify-between px-2 md:px-4 pt-12">
+            <!-- Strand 3 (Shortest) -->
+            <div class="decor-strand h-[50%]">
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+            </div>
+            <!-- Strand 2 (Medium) -->
+            <div class="decor-strand h-[75%]">
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+            </div>
+            <!-- Strand 1 (Longest) -->
+            <div class="decor-strand h-[100%]">
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+                <div class="decor-wire-line"></div>
+                <div class="decor-crystal"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress HUD bar at the top -->
+    <div class="fixed top-8 left-1/2 -translate-x-1/2 w-[85vw] max-w-[380px] h-3 progress-track bg-white/30 rounded-full z-[1001] overflow-hidden border border-white/40 shadow-sm backdrop-blur-sm">
+        <div id="navigation-progress" class="h-full w-[20%] rounded-full bg-gradient-to-r from-pink-300 to-rose-400 transition-all duration-700 ease-out"></div>
+    </div>
+
+    <!-- Global toaster notifications container -->
+    <div class="toast-notif-container" id="toast-wrapper"></div>
+
+    <!-- ==========================================================================
+       PRIMARY USER JOURNEY DECKS
+       ========================================================================== -->
+    <div class="relative z-30 min-h-screen flex items-center justify-center py-20 px-4">
+
+        <!-- STAGE 1: INTRO GATEKEEPER DECK (FOR SornA) -->
+        <section id="step-1" class="step-card w-full max-w-lg glass-card p-8 md:p-12 text-center flex flex-col items-center gap-6 relative">
+            <div class="digital-heart text-6xl md:text-7xl">❤️</div>
+            <h1 class="luxury-title text-4xl md:text-5xl">For SornA,</h1>
+            <!-- INTRO WELCOME TEXT WITH NEW LINE BREAK (NO MASSIVE BLANK SPACE) -->
+            <p class="text-stone-600 leading-relaxed text-sm md:text-base">
+                To the person who brings so much love and joy into my life every day. <strong class="font-bold text-[#ff4d79] filter drop-shadow-[0_0_8px_rgba(255,77,121,0.3)]">Happy Birthday!</strong><br>I designed this little sanctuary to bring a smile to your face. Ready to see what's inside?
+            </p>
+            <div class="flex items-center justify-center gap-6 w-full relative h-16 mt-4" id="gate-btn-container">
+                <button class="btn-luxury px-8 py-3.5 rounded-full text-sm tracking-wide btn-enter-glow" id="btn-yes" onclick="navigateStage(2)">Yes ✨</button>
+                <button class="bg-[#e9eef2] hover:bg-stone-300 text-stone-700 border border-white/50 px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide" id="btn-no">No</button>
+            </div>
+        </section>
+
+        <!-- STAGE 2: ACTION STATION & INTERACTIVE CHOCOLATE CAKE ASSEMBLY -->
+        <section id="step-2" class="step-card w-full max-w-2xl glass-card p-6 md:p-10 text-center flex flex-col items-center gap-6 hidden opacity-0 relative">
+            <!-- LUXURY COHESIVE BACK NAVIGATION -->
+            <button class="absolute top-6 left-6 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(1)">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                Back
+            </button>
+
+            <div class="pt-8 md:pt-0">
+                <div class="text-5xl">🍫</div>
+                <h1 class="luxury-title text-3xl md:text-4xl">Happy Birthday, SornA!</h1>
+            </div>
+            <!-- INTEGRATED CUSTOM OPTION 2 SUBTITLE -->
+            <p class="text-stone-600 leading-relaxed text-xs md:text-sm max-w-md mx-auto">
+                Let’s celebrate another beautiful year of you! Tap below to reveal your birthday cake, make a silent wish, and blow out the candle.
+            </p>
+
+            <!-- Dashboard Custom Control Rows (Two-Column Grid) -->
+            <div class="grid grid-cols-2 gap-4 w-full max-w-lg mt-2">
+                <button class="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl glass-card border-white/40 hover:bg-[#fbcbc9]/20 transition-all text-xs font-semibold uppercase text-stone-800" id="trigger-music" onclick="toggleMusic()">
+                    <span>🎵</span> Play Music
+                </button>
+                <button class="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl glass-card border-white/40 hover:bg-[#fbcbc9]/20 transition-all text-xs font-semibold uppercase text-stone-800" id="trigger-balloons" onclick="launchBalloonBurst()">
+                    <span>🎈</span> Fly Balloons
+                </button>
+            </div>
+
+            <!-- INTERACTIVE SATISFYING SEQUENTIAL ASSEMBLY CAKE CONTAINER -->
+            <div class="cake-stage mt-6 select-none" id="gourmet-cake-container">
+                
+                <!-- Gatekeeper Reveal Button positioned directly over empty plate area -->
+                <button id="btn-reveal-cake" class="btn-luxury px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider absolute z-50 transition-all shadow-lg" onclick="revealAndAssembleCake()">
+                    Reveal the Cake 🎁
+                </button>
+
+                <!-- Primary porcelain gold rim plate -->
+                <div class="porcelain-plate" id="cake-plate"></div>
+
+                <!-- Cake main body stacked (Assembled Steps) -->
+                <div class="cake-whole" id="gourmet-cake">
+                    <!-- Sponge base layer -->
+                    <div class="sponge-tier sponge-base cake-layer" id="cake-bottom-tier">
+                        <!-- Mousse filling layer inside base -->
+                        <div class="mousse-cream-fill cake-layer" id="cake-mousse-layer"></div>
+                    </div>
+                    
+                    <!-- Chocolate Fudge Glaze topping drips -->
+                    <svg class="glaze-fudge-drips cake-layer" id="cake-glaze-layer" viewBox="0 0 190 40">
+                        <path d="M0,10 Q15,35 30,12 T60,25 T90,12 T120,28 T150,15 T180,25 T190,12 L190,0 L0,0 Z"/>
+                    </svg>
+                    <div class="glaze-shine"></div>
+
+                    <!-- Topping cream dollops -->
+                    <div class="topping-drop" id="topping-cream-1" style="top: 8px; left: 35px;"></div>
+                    <div class="topping-drop" id="topping-cream-2" style="top: 6px; left: 75px;"></div>
+                    <div class="topping-drop" id="topping-cream-3" style="top: 8px; left: 115px;"></div>
+                    <div class="topping-drop" id="topping-cream-4" style="top: 10px; left: 145px;"></div>
+                </div>
+
+                <!-- Interactive Candle with flickering flame -->
+                <div class="candle-container" id="cake-candle" onclick="blowCandle()">
+                    <!-- Vector Drifting Smoke (Initially invisible) -->
+                    <div class="smoke-puff" id="candle-smoke">
+                        <svg width="24" height="60" viewBox="0 0 24 60">
+                            <path class="smoke-line" d="M12,55 Q9,40 15,25 T9,10 T12,0" />
+                        </svg>
+                    </div>
+                    <div class="candle-flame-wrapper">
+                        <div class="candle-flame"></div>
+                        <div class="candle-halo"></div>
+                    </div>
+                    <div class="candle-stick"></div>
+                </div>
+
+            </div>
+
+            <!-- Redesigned blowout interaction button row -->
+            <div class="flex flex-col items-center gap-3 w-full">
+                <button class="btn-luxury px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider opacity-40 pointer-events-none" id="btn-blow-candle" onclick="blowCandle()">
+                    Blow Candle 🕯️
+                </button>
+                <p class="text-xs text-stone-500 italic" id="slice-status">Reveal your cake to ignite the flame!</p>
+            </div>
+
+            <!-- BUTTON TO NAVIGATE TO REASONS GRID (RESTORED TO SWEET KEEPSAKES) -->
+            <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-4 opacity-40 pointer-events-none" id="btn-next-step2" onclick="navigateStage(3)">
+                Sweet Keepsakes 💖
+            </button>
+        </section>
+
+        <!-- STAGE 3: BENTO GRID OF ADORATION (Dedicated to SornA) -->
+        <section id="step-3" class="step-card w-full max-w-4xl flex flex-col items-center gap-6 hidden opacity-0 relative">
+            <!-- LUXURY COHESIVE BACK NAVIGATION -->
+            <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(2)">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                Back
+            </button>
+
+            <!-- HEADING "Few Things I Adore About You" -->
+            <div class="text-center pt-8 md:pt-0">
+                <h2 class="luxury-title text-3xl md:text-4xl">Few Things I Adore About You</h2>
+                <p class="text-stone-500 text-xs md:text-sm mt-1">Slices of magic that make you who you are</p>
+            </div>
+
+            <!-- Modern bento layout structure with integrated handwriting card below jar -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-4">
+                
+                <!-- BENTO ELEMENT 1 (Double width span - Your Unique Personality) -->
+                <div class="glass-card p-6 md:p-8 md:col-span-2 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform">
+                    <h3 class="text-lg font-semibold text-stone-800">✨ Your Unique Personality</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        There is absolutely no one else in the world like you. The unique way you show your kindness, care, love. How you manage everything around you is just amazing.
+                    </p>
+                </div>
+
+                <!-- BENTO ELEMENT 2 (Your Beautiful Smile) -->
+                <div class="glass-card p-6 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform">
+                    <h3 class="text-lg font-semibold text-stone-800">😊 Your Beautiful Smile</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        How your smile is capable of healing the deepest aches and making me forget the pain. The way your entire face lights up when you smile from the very depths of your heart.
+                    </p>
+                </div>
+
+                <!-- BENTO ELEMENT 3 (Your Long Hair) -->
+                <div class="glass-card p-6 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform">
+                    <h3 class="text-lg font-semibold text-stone-800">💇‍♀️ Your Long Hair</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Your long hair holds a magic of its own. It looks like a waterfall of silk. The little redness of it. Your hair has the kind of stunning length people spend years dreaming about.
+                    </p>
+                </div>
+
+                <!-- BENTO ELEMENT 4 (Your Sweet Voice) -->
+                <div class="glass-card p-6 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform">
+                    <h3 class="text-lg font-semibold text-stone-800">🎵 Your Sweet Voice</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Your voice is a gentle melody that instantly calms my mind. The soft warmth in your tone when you speak or you say I love you or give me kiss is the sweetest sound I could ever listen to.
+                    </p>
+                </div>
+
+                <!-- BENTO ELEMENT 5 (The Way You Get Angry) -->
+                <div class="glass-card p-6 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform">
+                    <h3 class="text-lg font-semibold text-stone-800">😤 The Way You Get Angry</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Your angry face is my favorite expression. I sometimes playfully tease you just to see that angry reaction. Watching you try to stay mad at me while hiding a tiny smile is a battle of pure cuteness that you always lose.
+                    </p>
+                </div>
+
+                <!-- BENTO ELEMENT 6 (Double width span - The Way You Show Love) -->
+                <div class="glass-card p-6 md:p-8 md:col-span-2 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform">
+                    <h3 class="text-lg font-semibold text-stone-800">💖 The Way You Show Love</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        I know your love language is different from others. You don't express your love because you don't know how to express. Your shyness is another beauty of yours. When you express your love it's so genuine that it flatters my heart. It makes me feel incredibly loved. You might not be loud about your feelings, but I know how deeply you love me.
+                    </p>
+                </div>
+
+                <!-- BENTO ELEMENT 7 (RE-DESIGNED ORIGINAL COMPACT LOVE JAR - ONLY CLICKABLE VIA BUTTON) -->
+                <div class="glass-card p-6 flex flex-col items-center justify-center text-center gap-4 hover:-translate-y-1 transition-transform md:col-span-1">
+                    <div class="reasons-jar-card flex flex-col items-center gap-3">
+                        <span class="text-xs font-bold uppercase tracking-widest text-stone-500">Love Keepsake Box</span>
+                        
+                        <!-- Translucent compact original size glass love jar filled with miniature envelopes to half -->
+                        <div class="love-jar relative flex items-center justify-center">
+                            <div class="jar-ribbon"></div>
+                            
+                            <!-- Layered mini-envelopes filling the bottom-to-middle half of the jar -->
+                            <div class="mini-envelope-in-jar env-pink" style="left: 10px; bottom: 10px; transform: rotate(-22deg); z-index: 2;">✉️</div>
+                            <div class="mini-envelope-in-jar env-gold" style="left: 38px; bottom: 8px; transform: rotate(12deg); z-index: 1;">✉️</div>
+                            <div class="mini-envelope-in-jar env-lavender" style="left: 65px; bottom: 11px; transform: rotate(-5deg); z-index: 2;">✉️</div>
+                            <div class="mini-envelope-in-jar env-cream" style="left: 90px; bottom: 9px; transform: rotate(18deg); z-index: 1;">✉️</div>
+
+                            <div class="mini-envelope-in-jar env-gold" style="left: 18px; bottom: 22px; transform: rotate(-12deg); z-index: 3;">✉️</div>
+                            <div class="mini-envelope-in-jar env-lavender" style="left: 45px; bottom: 20px; transform: rotate(28deg); z-index: 4;">✉️</div>
+                            <div class="mini-envelope-in-jar env-pink" style="left: 72px; bottom: 23px; transform: rotate(-10deg); z-index: 3;">✉️</div>
+                            <div class="mini-envelope-in-jar env-cream" style="left: 92px; bottom: 21px; transform: rotate(15deg); z-index: 4;">✉️</div>
+
+                            <div class="mini-envelope-in-jar env-pink" style="left: 12px; bottom: 35px; transform: rotate(-35deg); z-index: 5;">✉️</div>
+                            <div class="mini-envelope-in-jar env-gold" style="left: 38px; bottom: 32px; transform: rotate(8deg); z-index: 6;">✉️</div>
+                            <div class="mini-envelope-in-jar env-lavender" style="left: 65px; bottom: 36px; transform: rotate(-15deg); z-index: 5;">✉️</div>
+                            <div class="mini-envelope-in-jar env-cream" style="left: 88px; bottom: 34px; transform: rotate(22deg); z-index: 6;">✉️</div>
+
+                            <div class="mini-envelope-in-jar env-lavender" style="left: 20px; bottom: 48px; transform: rotate(-18deg); z-index: 7;">✉️</div>
+                            <div class="mini-envelope-in-jar env-pink" style="left: 48px; bottom: 46px; transform: rotate(12deg); z-index: 8;">✉️</div>
+                            <div class="mini-envelope-in-jar env-gold" style="left: 75px; bottom: 49px; transform: rotate(-5deg); z-index: 7;">✉️</div>
+
+                            <div class="mini-envelope-in-jar env-cream" style="left: 32px; bottom: 62px; transform: rotate(-8deg); z-index: 9;">✉️</div>
+                            <div class="mini-envelope-in-jar env-pink" style="left: 62px; bottom: 60px; transform: rotate(18deg); z-index: 10;">✉️</div>
+                            
+                            <span class="text-xl text-rose-400 animate-pulse mt-4 z-20">💖</span>
+                        </div>
+                        
+                        <!-- Sole interactive button that triggers the drop note slide -->
+                        <button class="btn-luxury text-xs px-5 py-2.5 rounded-full font-bold mt-2" onclick="drawReason(event)">Draw Slip 💌</button>
+                    </div>
+                </div>
+
+                <!-- BENTO ELEMENT 8 (HANDWRITTEN NOTE CONTAINER - Positioned majestically over all 3 columns at the bottom) -->
+                <div class="md:col-span-3 flex flex-col justify-center items-center w-full">
+                    <!-- Highly Aesthetic handwritten physical notebook note paper slip container -->
+                    <div class="handwritten-slip-container w-full">
+                        <div class="handwritten-slip" id="handwritten-note-paper">
+                            <div class="handwritten-sticker">💖</div>
+                            <span id="handwritten-note-text">Tap the Draw Slip button above to reveal a sweet handwritten message... ✨</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-4" onclick="navigateStage(4)">
+                Walk down Memory Lane 🎬
+            </button>
+        </section>
+
+        <!-- STAGE 4: SHARED MEMORY FRAME (3D POLAROID EFFECTS) -->
+        <section id="step-4" class="step-card w-full max-w-3xl flex flex-col items-center gap-6 hidden opacity-0 relative">
+            <!-- LUXURY COHESIVE BACK NAVIGATION -->
+            <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(3)">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                Back
+            </button>
+
+            <div class="text-center pt-8 md:pt-0">
+                <h2 class="luxury-title text-3xl md:text-4xl">Shared Moments</h2>
+                <p class="text-stone-500 text-xs md:text-sm mt-1">Sticking memories into frames forever</p>
+            </div>
+
+            <!-- Floating parallax polaroid layer -->
+            <div class="polaroid-wrapper cursor-grab flex items-center justify-center w-full max-w-xs py-4">
+                <div class="polaroid-card p-4 rounded-md pb-8 bg-white text-stone-800 shadow-2xl w-64 rotate-2 transform origin-center" id="parallax-polaroid">
+                    <div class="w-full h-56 bg-stone-100 overflow-hidden rounded relative">
+                        <img class="w-full h-full object-cover" src="https://i.ibb.co/6Z6XgCg/crush.webp" alt="SornA Memory" onerror="this.style.display='none'; document.getElementById('polaroid-alt-ui').style.display='flex'">
+                        <div id="polaroid-alt-ui" class="absolute inset-0 bg-gradient-to-tr from-[#fbcbc9] to-rose-300 hidden flex-col items-center justify-center p-4 text-center">
+                            <span class="text-stone-800 font-bold text-xs">Capturing Infinity 📸</span>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4 font-semibold cursive-title text-2xl">
+                        Our favorite memory
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-stone-700 text-center max-w-md text-sm md:text-base leading-relaxed">
+                Every moment with you, SornA, is a treasured snapshot in the album of my heart.
+            </p>
+
+            <!-- Memory Scroll Timeline -->
+            <div class="w-full max-w-lg relative pl-8 border-l-2 border-dashed border-[#b88b90] flex flex-col gap-8 mt-4 text-left">
+                
+                <!-- NODE 1 -->
+                <div class="relative">
+                    <div class="absolute -left-[39px] top-1 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#b88b90] shadow"></div>
+                    <span class="text-xs text-rose-400 font-bold tracking-wider uppercase">Our First Interaction</span>
+                    <h4 class="text-base font-semibold text-stone-800">The Spark</h4>
+                    <p class="text-stone-500 text-xs mt-1 leading-relaxed">
+                        A beautiful random moment when our universes crossed, and my whole map of happiness changed instantly.
+                    </p>
+                </div>
+
+                <!-- NODE 2 -->
+                <div class="relative">
+                    <div class="absolute -left-[39px] top-1 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#b88b90] shadow"></div>
+                    <span class="text-xs text-rose-400 font-bold tracking-wider uppercase">Deep Connections</span>
+                    <h4 class="text-base font-semibold text-stone-800">Hours of Talk</h4>
+                    <p class="text-stone-500 text-xs mt-1 leading-relaxed">
+                        Those golden moments when time became completely irrelevant and we connected on a level of pure souls.
+                    </p>
+                </div>
+
+            </div>
+
+            <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6" onclick="navigateStage(5)">
+                Surprise Wish 🎁
+            </button>
+        </section>
+
+        <!-- STAGE 5: THE CELEBRATION WISH, SCRATCH SURPRISE & UNLOCKING LETTER -->
+        <section id="step-5" class="step-card w-full max-w-2xl flex flex-col items-center gap-6 hidden opacity-0 relative">
+            <!-- LUXURY COHESIVE BACK NAVIGATION -->
+            <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(4)">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                Back
+            </button>
+
+            <div class="text-center pt-8 md:pt-0">
+                <span class="text-5xl">🍰</span>
+                <h2 class="luxury-title text-3xl md:text-4xl mt-3">My Birthday Wish For You</h2>
+            </div>
+            <p class="text-stone-600 leading-relaxed text-sm md:text-base mt-2 max-w-md mx-auto text-center">
+                May this year open doors of immense joy, success, and pure magic for you, SornA. You deserve nothing short of absolute stellar happiness.
+            </p>
+
+            <!-- HTML5 Scratch Off card container -->
+            <div class="flex flex-col items-center gap-2 mt-4">
+                <span class="text-xs uppercase font-bold tracking-widest text-stone-500">Scratch to reveal surprise pass</span>
+                <div class="scratch-card-box">
+                    <div class="scratch-reward">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-rose-400">Golden Voucher 🏷️</span>
+                        <!-- CUSTOM REVEAL PASS TEXT -->
+                        <h4 class="text-base font-bold text-stone-800 mt-1 leading-snug">✨ One Complete Luxury Day out & Dinner Gift! ✨</h4>
+                        <p class="text-[9px] text-stone-500 italic mt-1">Redeemable whenever SornA wishes.</p>
+                    </div>
+                    <canvas id="scratch-canvas" width="290" height="160"></canvas>
+                </div>
+                <p id="scratch-status" class="text-[11px] text-stone-400 italic mt-1">Use cursor or finger to clear overlay! 🪄</p>
+            </div>
+
+            <!-- Absolute Envelope Locking zone -->
+            <div class="envelope-container mt-4 flex flex-col items-center" id="envelope-letter-gate" onclick="tryOpenLetter()">
+                <div class="flex flex-col items-center text-center cursor-pointer" id="lock-ui">
+                    <svg class="lock-icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 2C9.2 2 7 4.2 7 7v3H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2h-1V7c0-2.8-2.2-5-5-5zm-3 5c0-1.7 1.3-3 3-3s3 1.3 3 3v3H9V7zm3 8c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+                    </svg>
+                    <div id="lock-text" class="text-xs text-stone-500 font-semibold tracking-wide mt-2">Envelope Sealed • Complete Tasks</div>
+                </div>
+            </div>
+
+            <!-- Heartfelt letter unfolding container -->
+            <article class="letter-card glass-card w-full flex flex-col gap-4 text-left" id="unfolded-letter-box">
+                <div class="max-h-64 overflow-y-auto pr-2 text-stone-700 text-sm md:text-base leading-relaxed flex flex-col gap-4">
+                    <!-- PERSONALIZED HEARTFELT LETTER -->
+                    <p>Dearest SornA,</p>
+                    <p>
+                        Happy Birthday! Watching you grow, smile, and radiate happiness has been one of the most delightful aspects of my days.
+                    </p>
+                    <p>
+                        This letter is a promise—to always cheer for your dreams, to stand by you in quiet moments, and to treasure the lovely personality you are. May the road ahead bring you boundless success and all the cozy joy in the world.
+                    </p>
+                    <p class="text-right cursive-title text-3xl">With all my heart,</p>
+                    <p class="text-right text-xs text-stone-400 italic">Your Favorite Human</p>
+                </div>
+
+                <!-- Grand celebration final trigger -->
+                <button class="btn-luxury py-4 rounded-full text-xs font-bold tracking-widest uppercase mt-4 w-full" id="btn-grand-climax" onclick="fireGrandClimax()">
+                    Celebrate! 🥂
+                </button>
+                <div id="final-climax-greeting" class="hidden text-center text-xl md:text-2xl font-bold luxury-title py-4 opacity-0 transform translate-y-4 transition-all duration-1000">
+                    Happy Birthday, SornA! ❤️
+                </div>
+            </article>
+
+        </section>
+
+    </div>
+
+    <!-- ==========================================================================
+       5. JAVASCRIPT ENGINE & WEBGL / CANVAS IMPLEMENTATIONS
+       ========================================================================== -->
+    <script>
+        /* APPLICATION GLOBAL CONTROLLERS */
+        const appState = {
+            stage: 1,
+            musicOn: false,
+            cakeCut: false,
+            cakeAssembled: false,
+            scratchCleared: false,
+            letterUnlocked: false,
+            climaxFired: false
+        };
+
+        // Personalised Draw slips inside Jar (Editable easily by you later!)
+        const customJarReasons = [
+            "Your laughter has the rare ability to light up any room in seconds. 💖",
+            "How incredibly patient, calm, and understanding you always are. ✨",
+            "The comforting warmth of your hand slipped perfectly into mine. 🤝",
+            "The absolute brilliance of your mind and how you think. 🌸",
+            "How you can make the most normal day feel like a magical movie scene. 🗺️",
+            "The way you look at the universe with hope and kindness. 🍃"
+        ];
+
+        let lastReasonIndex = -1;
+
+        /* ==========================================================================
+           BACKGROUND COMPONENT: THREE.JS INTERACTIVE STARDUST FIELD
+           ========================================================================== */
+        let scene, camera, renderer, particles;
+
+        function initThreeBackground() {
+            const container = document.getElementById('three-canvas-container');
+            
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Create starry stardust cloud
+            const count = 120;
+            const geo = new THREE.BufferGeometry();
+            const pos = new Float32Array(count * 3);
+            const scales = new Float32Array(count);
+
+            for (let i = 0; i < count * 3; i += 3) {
+                pos[i] = (Math.random() - 0.5) * 12;     // X coordinates
+                pos[i + 1] = (Math.random() - 0.5) * 12; // Y coordinates
+                pos[i + 2] = (Math.random() - 0.5) * 4;  // Z depth
+                scales[i / 3] = Math.random() * 0.15 + 0.05;
+            }
+
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+
+            // Luxury golden dust particles material
+            const mat = new THREE.PointsMaterial({
+                color: 0xe8c5c8,
+                size: 0.06,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geo, mat);
+            scene.add(particles);
+
+            window.addEventListener('resize', handleViewportResize);
+            animateThree();
+        }
+
+        function handleViewportResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            
+            // Subtle slow particle rotation drift
+            if (particles) {
+                particles.rotation.y += 0.0012;
+                particles.rotation.x += 0.0006;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        /* ==========================================================================
+           GLOBAL BACKGROUND AMBIENT GLOWING 3D-STYLE HEARTS GENERATOR
+           ========================================================================== */
+        function spawnAmbientHeart() {
+            const viewport = document.getElementById('ambient-heart-viewport');
+            if (!viewport) return;
+
+            // Cap maximum active background heart elements to maintain high frame rate on mobile GPUs
+            if (viewport.childElementCount >= 18) {
+                viewport.removeChild(viewport.firstChild);
+            }
+
+            // Generate an inline SVG Heart with dynamic radial 3D gradients and bright highlights
+            const el = document.createElement('div');
+            el.classList.add('ambient-heart');
+
+            const startX = Math.random() * 95; // horizontal position (vw)
+            const heartSize = 18 + Math.random() * 22; // size between 18px and 40px
+            const duration = 12 + Math.random() * 8; // slow drift speed (12s to 20s)
+            const driftX = (Math.random() * 140) - 70; // horizontal sway drift (px)
+            const rotateAngle = (Math.random() * 40) - 20; // twist rotation angle (deg)
+
+            // Randomize glossy neon pink gradients
+            const gradientId = `heartGrad-${Math.floor(Math.random() * 100000)}`;
+
+            el.innerHTML = `
+                <svg width="${heartSize}" height="${heartSize}" viewBox="0 0 32 32" fill="none">
+                    <defs>
+                        <radialGradient id="${gradientId}" cx="35%" cy="35%" r="65%">
+                            <stop offset="0%" stop-color="#ffecf0"/>
+                            <stop offset="25%" stop-color="#ff80a0"/>
+                            <stop offset="80%" stop-color="#ff1a53"/>
+                            <stop offset="100%" stop-color="#b3002d"/>
+                        </radialGradient>
+                    </defs>
+                    <path d="M16,28.2 C16,28.2 3,18.2 3,10.5 C3,6.1 6.6,2.5 11,2.5 C13.7,2.5 15.1,4 16,5 C16.9,4 18.3,2.5 21,2.5 C25.4,2.5 29,6.1 29,10.5 C29,18.2 16,28.2 16,28.2 Z" fill="url(#${gradientId})"/>
+                </svg>
+            `;
+
+            el.style.left = `${startX}vw`;
+            el.style.animationDuration = `${duration}s`;
+            el.style.setProperty('--drift', `${driftX}px`);
+            el.style.setProperty('--rotation', `${rotateAngle}deg`);
+
+            viewport.appendChild(el);
+
+            // Clean up heart DOM element on completion of animation loop
+            el.addEventListener('animationend', () => el.remove());
+        }
+
+        /* ==========================================================================
+           SYSTEM STAGE NAVIGATION SYSTEM
+           ========================================================================== */
+        function navigateStage(nextStage) {
+            const currentEl = document.getElementById(`step-${appState.stage}`);
+            const nextEl = document.getElementById(`step-${nextStage}`);
+
+            const goingBack = nextStage < appState.stage;
+            const exitY = goingBack ? 40 : -40;
+            const entryY = goingBack ? -40 : 40;
+
+            // 1. Immediately reset No button properties to its layout placement if transitioning back to Step 1
+            if (nextStage === 1) {
+                gsap.set(btnNo, { clearProps: "all" });
+            }
+
+            // 2. Automatically slide down and activate the glowing canopy on Step 2 or above, hide on Step 1
+            if (nextStage >= 2) {
+                document.getElementById('fairy-lights-wire').classList.add('active');
+            } else {
+                document.getElementById('fairy-lights-wire').classList.remove('active');
+            }
+
+            // Hardware-accelerated transitions utilizing pure opacity fade to avoid GPU thrashing 
+            // from constant recalculations of large backdrop-filter blur transforms!
+            gsap.to(currentEl, {
+                opacity: 0,
+                duration: 0.35,
+                ease: 'power1.inOut',
+                onComplete: () => {
+                    currentEl.style.display = 'none';
+                    nextEl.style.display = 'flex';
+                    
+                    appState.stage = nextStage;
+                    const progressVal = 20 * appState.stage;
+                    gsap.to('#navigation-progress', { width: `${progressVal}%`, duration: 0.4 });
+
+                    // GSAP Reveal card entry
+                    gsap.fromTo(nextEl, 
+                        { opacity: 0 },
+                        { opacity: 1, duration: 0.4, ease: 'power1.inOut', onComplete: () => {
+                            // If SornA lands back on page 2 and has already assembled the cake, keep it visible
+                            if (nextStage === 2) {
+                                if (appState.cakeAssembled) {
+                                    gsap.set('#btn-reveal-cake', { display: 'none' });
+                                    gsap.set('#cake-plate', { scale: 1, opacity: 1 });
+                                    gsap.set('.cake-layer', { translateY: 0, opacity: 1 });
+                                    gsap.set('.topping-drop', { scale: 1, opacity: 1 });
+                                    if (!appState.cakeCut) {
+                                        gsap.set('#cake-candle', { translateY: 0, opacity: 1 });
+                                        document.getElementById('cake-candle').classList.add('active-flame');
+                                    }
+                                }
+                            }
+                        }}
+                    );
+
+                    // Triggers canvas initialization if at stage 5
+                    if (nextStage === 5) {
+                        initScratchCard();
+                    }
+                    if (nextStage === 4) {
+                        initPolaroidCursorParallax();
+                    }
+                }
+            });
+        }
+
+        /* PLAYFUL TELEPORTING BUTTON GIMMICK FOR Intro Gatekeeper */
+        const btnNo = document.getElementById('btn-no');
+        
+        // Use GSAP to slide away beautifully so she can't catch it!
+        function teleportNoButton(e) {
+            if (e) e.preventDefault();
+            
+            // Calculate random boundary safely
+            const padding = 80;
+            const screenW = window.innerWidth - 160;
+            const screenH = window.innerHeight - 160;
+
+            const targetX = Math.random() * screenW + padding;
+            const targetY = Math.random() * screenH + padding;
+
+            gsap.to(btnNo, {
+                position: 'fixed',
+                left: `${targetX}px`,
+                top: `${targetY}px`,
+                x: 0,
+                y: 0,
+                zIndex: 10000,
+                duration: 0.25,
+                ease: 'power2.out'
+            });
+
+            pushToast("Try again! SornA 😜");
+        }
+
+        btnNo.addEventListener('mouseover', teleportNoButton);
+        btnNo.addEventListener('touchstart', teleportNoButton);
+
+        /* SATISFYING SEQUENTIAL CAKE ASSEMBLY TIMELINE */
+        function revealAndAssembleCake() {
+            const revealBtn = document.getElementById('btn-reveal-cake');
+            
+            // Fade & shrink the reveal button away
+            gsap.to(revealBtn, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.5,
+                ease: 'power2.in',
+                onComplete: () => {
+                    revealBtn.style.display = 'none';
+                    runCakeAssemblyAnimation();
+                }
+            });
+        }
+
+        function runCakeAssemblyAnimation() {
+            appState.cakeAssembled = true;
+
+            const tl = gsap.timeline();
+
+            // Set initial off-stage positioning
+            gsap.set('#cake-plate', { scale: 0, opacity: 0 });
+            gsap.set('.cake-layer', { translateY: -280, opacity: 0 });
+            gsap.set('.topping-drop', { scale: 0, opacity: 0 });
+            gsap.set('#cake-candle', { translateY: -200, opacity: 0 });
+            gsap.set('#cake-candle', { className: 'candle-container' });
+
+            // 1. Drop and bounce the serving porcelain plate
+            tl.to('#cake-plate', { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.5)' })
+              
+              // 2. Drop the bottom cocoa sponge base
+              .to('#cake-bottom-tier', { translateY: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }, '+=0.1')
+              
+              // 3. Drop milk chocolate mousse cream filling
+              .to('#cake-mousse-layer', { translateY: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.1')
+              
+              // 4. Drop top fudge drips glaze
+              .to('#cake-glaze-layer', { translateY: 0, opacity: 1, duration: 0.6, ease: 'bounce.out' }, '+=0.1')
+              
+              // 5. Pop cream toppings on step sequence
+              .to('.topping-drop', { scale: 1, opacity: 1, duration: 0.35, stagger: 0.12, ease: 'back.out(1.8)' })
+              
+              // 6. Drop striped candle stick
+              .to('#cake-candle', { translateY: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.2)' }, '+=0.15')
+              
+              // 7. Ignite flame with high-fidelity glow aura
+              .add(() => {
+                  const candle = document.getElementById('cake-candle');
+                  candle.classList.add('active-flame');
+                  
+                  // Enable blowout controls
+                  const blowBtn = document.getElementById('btn-blow-candle');
+                  blowBtn.classList.remove('opacity-40', 'pointer-events-none');
+                  
+                  document.getElementById('slice-status').textContent = "SornA, make a wish & tap the flame or the button below! 🕯️";
+              });
+        }
+
+        /* ==========================================================================
+           REDESIGNED HIGH-FIDELITY CANDLE BLOWOUT INTERACTION
+           ========================================================================== */
+        function blowCandle() {
+            if (appState.cakeCut || !appState.cakeAssembled) return;
+            appState.cakeCut = true;
+
+            const candle = document.getElementById('cake-candle');
+            const blowBtn = document.getElementById('btn-blow-candle');
+            const smokePuff = document.getElementById('candle-smoke');
+            const smokeLine = document.querySelector('.smoke-line');
+
+            // Disable blowout buttons immediately
+            blowBtn.classList.add('opacity-40', 'pointer-events-none');
+            
+            // 1. Extinguish candle (gsap scales flame off instantly)
+            candle.classList.add('extinguished');
+            pushToast("Wish sent to the stars! 🌟❤️");
+
+            // 2. Play custom recorded voice note or trigger natural Text-To-Speech fallback
+            const customVoice = document.getElementById('birthday-voice');
+            if (customVoice && customVoice.getAttribute('src') && customVoice.getAttribute('src') !== "path-to-your-recorded-voice.mp3") {
+                customVoice.play().catch(err => {
+                    console.log("Voice note audio playback failed or was blocked:", err);
+                    triggerVoiceSynthesisFallback();
+                });
+            } else {
+                triggerVoiceSynthesisFallback();
+            }
+
+            // 3. Play high-fidelity organic vector smoke path rise
+            gsap.timeline()
+                .set(smokePuff, { opacity: 1 })
+                .to(smokeLine, { strokeDashoffset: 0, duration: 0.5, ease: 'power1.out' })
+                .to(smokePuff, { y: -45, scaleX: 2.2, opacity: 0, duration: 1.2, ease: 'power2.out' })
+                .add(() => {
+                    // Update layout statuses
+                    document.getElementById('slice-status').textContent = "Candle blown successfully! Wishing SornA endless joy! 🕊️🌸";
+                    document.getElementById('slice-status').classList.add('text-rose-400');
+
+                    // 4. Fire grand double flank celebration confetti shower
+                    confetti({ particleCount: 100, spread: 75, origin: { x: 0.2, y: 0.6 } });
+                    confetti({ particleCount: 100, spread: 75, origin: { x: 0.8, y: 0.6 } });
+
+                    // Unlock next navigation step
+                    const nextBtn = document.getElementById('btn-next-step2');
+                    nextBtn.classList.remove('opacity-40', 'pointer-events-none');
+                    evaluateLetterUnlocks();
+                });
+        }
+
+        // Web Speech API fallback system
+        function triggerVoiceSynthesisFallback() {
+            if ('speechSynthesis' in window) {
+                // Cancel any pending speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance("Happy Birthday, SornA!");
+                utterance.pitch = 1.15; // Soft warm feminine pitch tuning
+                utterance.rate = 0.9;   // Calm, elegant delivery rate
+                
+                // Seek premium natural localized voices
+                const voices = window.speechSynthesis.getVoices();
+                const preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
+                if (preferredVoice) {
+                    utterance.voice = preferredVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        /* ==========================================================================
+           AMBIENT CONTROLS (MUSIC, BALLOONS, FAIRIES)
+           ========================================================================== */
+        const audioNode = document.getElementById('ambient-audio');
+        const triggerMusicBtn = document.getElementById('trigger-music');
+
+        function toggleMusic() {
+            if (!appState.musicOn) {
+                audioNode.play().then(() => {
+                    appState.musicOn = true;
+                    triggerMusicBtn.innerHTML = `<span>⏸️</span> Pause Music`;
+                    triggerMusicBtn.classList.add('bg-pink-100');
+                }).catch(() => {
+                    console.log("Audio play blocked by browser sandbox policy.");
+                });
+            } else {
+                audioNode.pause();
+                appState.musicOn = false;
+                triggerMusicBtn.innerHTML = `<span>🎵</span> Play Music`;
+                triggerMusicBtn.classList.remove('bg-pink-100');
+            }
+        }
+
+        /* LAUNCH EXACTLY 20 BALLOONS (STAGGERED AND SATISFYING) */
+        function launchBalloonBurst() {
+            const btn = document.getElementById('trigger-balloons');
+            btn.classList.add('bg-pink-100');
+
+            let count = 0;
+            const totalBalloons = 20;
+
+            function spawnNext() {
+                if (count < totalBalloons) {
+                    spawnSingleBalloon();
+                    count++;
+                    // Stagger the balloon spawns by 120ms so they flow naturally up the screen
+                    setTimeout(spawnNext, 120);
+                } else {
+                    // Turn off button highlight shortly after the complete flurry is fully airborne
+                    setTimeout(() => {
+                        btn.classList.remove('bg-pink-100');
+                    }, 1000);
+                }
+            }
+            spawnNext();
+        }
+
+        const balloonColors = ['#fbcbc9', '#fceade', '#e8c5c8', '#ffe5ec', '#f3d9d3'];
+        function spawnSingleBalloon() {
+            const holder = document.getElementById('balloon-container');
+            const el = document.createElement('div');
+            el.classList.add('balloon');
+
+            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            const left = Math.random() * 95;
+            const scale = 0.65 + Math.random() * 0.7;
+            const speed = 6 + Math.random() * 6;
+            const driftX = Math.random() * 180 - 90;
+            const rot = Math.random() * 30 - 15;
+
+            el.style.backgroundColor = color;
+            el.style.left = `${left}vw`;
+            el.style.transform = `scale(${scale})`;
+            el.style.animationDuration = `${speed}s`;
+            el.style.setProperty('--drift', `${driftX}px`);
+            el.style.setProperty('--rotation', `${rot}deg`);
+
+            holder.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+        }
+
+        /* ==========================================================================
+           STAGE 3 & 4 INTERACTIVE SLIPS & MEMORIES (WITH Overhauled Handwriting Slips!)
+           ========================================================================== */
+        function drawReason(event) {
+            let choice;
+            do {
+                choice = Math.floor(Math.random() * customJarReasons.length);
+            } while (choice === lastReasonIndex);
+            
+            lastReasonIndex = choice;
+            const slipPaper = document.getElementById('handwritten-note-paper');
+            const slipText = document.getElementById('handwritten-note-text');
+
+            // Play physical GSAP popping, unfolding, and rotating handwriting card drop animation!
+            gsap.timeline()
+                .to(slipPaper, {
+                    scale: 0.1,
+                    rotate: -15,
+                    opacity: 0,
+                    duration: 0.25,
+                    ease: 'power2.in',
+                    onComplete: () => {
+                        slipText.textContent = customJarReasons[choice];
+                    }
+                })
+                .to(slipPaper, {
+                    scale: 1,
+                    rotate: -1.5 + (Math.random() * 3), // slight organic random angle rest
+                    opacity: 1,
+                    duration: 0.75,
+                    ease: 'back.out(1.3)'
+                });
+
+            spawnHeartExplosions(event.clientX, event.clientY);
+        }
+
+        function spawnHeartExplosions(x, y) {
+            const num = 6;
+            const emojis = ['💖', '❤️', '💕', '✨'];
+            for (let i = 0; i < num; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('heart-particle');
+                particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+
+                const driftY = (Math.random() * -150 - 50) + 'px';
+                const driftX = (Math.random() * 200 - 100) + 'px';
+                const spin = (Math.random() * 360) + 'deg';
+
+                particle.style.setProperty('--mx', driftX);
+                particle.style.setProperty('--my', driftY);
+                particle.style.setProperty('--mr', spin);
+
+                document.body.appendChild(particle);
+                particle.addEventListener('animationend', () => particle.remove());
+            }
+        }
+
+        /* Polaroid Tilting cursor follow */
+        function initPolaroidCursorParallax() {
+            const element = document.getElementById('parallax-polaroid');
+            const wrapper = document.querySelector('.polaroid-wrapper');
+
+            wrapper.addEventListener('mousemove', (e) => {
+                const box = element.getBoundingClientRect();
+                const coordX = e.clientX - box.left - box.width / 2;
+                const coordY = e.clientY - box.top - box.height / 2;
+
+                const rotX = -(coordY / box.height) * 25;
+                const rotY = (coordX / box.width) * 25;
+
+                gsap.to(element, {
+                    rotateX: rotX,
+                    rotateY: rotY,
+                    transformPerspective: 800,
+                    ease: 'power2.out',
+                    duration: 0.4
+                });
+            });
+
+            wrapper.addEventListener('mouseleave', () => {
+                gsap.to(element, { rotateX: 2, rotateY: -2, duration: 0.6 });
+            });
+        }
+
+        /* ==========================================================================
+           STAGE 5: METALLIC ROSE-GOLD SCRATCH-OFF CARD
+           ========================================================================== */
+        let scratchCanvas, scratchCtx, scratchingActive = false;
+
+        function initScratchCard() {
+            scratchCanvas = document.getElementById('scratch-canvas');
+            scratchCtx = scratchCanvas.getContext('2d');
+            
+            const w = scratchCanvas.width;
+            const h = scratchCanvas.height;
+
+            // Paint metallic rose-gold textured mask
+            const gradient = scratchCtx.createLinearGradient(0, 0, w, h);
+            gradient.addColorStop(0, '#e8c5c8');
+            gradient.addColorStop(0.5, '#fceade');
+            gradient.addColorStop(1, '#b88b90');
+            scratchCtx.fillStyle = gradient;
+            scratchCtx.fillRect(0, 0, w, h);
+
+            scratchCtx.strokeStyle = 'rgba(255,255,255,0.22)';
+            scratchCtx.lineWidth = 1.5;
+            for (let i = 0; i < w; i += 25) {
+                scratchCtx.beginPath();
+                scratchCtx.moveTo(i, 0);
+                scratchCtx.lineTo(i + 35, h);
+                scratchCtx.stroke();
+            }
+
+            // Text rules printed on top of the scratch coat
+            scratchCtx.font = 'bold 13px "Poppins", sans-serif';
+            scratchCtx.fillStyle = '#3d2314';
+            scratchCtx.textBaseline = 'middle';
+            scratchCtx.textAlign = 'center';
+            scratchCtx.fillText('🎁 SCRATCH COAT FOR SornA ✨', w / 2, h / 2 + 5);
+
+            // Desktop Listeners
+            scratchCanvas.addEventListener('mousedown', initiateScratch);
+            scratchCanvas.addEventListener('mousemove', drawScratchStroke);
+            window.addEventListener('mouseup', terminateScratch);
+
+            // Touch Listeners
+            scratchCanvas.addEventListener('touchstart', (e) => {
+                const t = e.touches[0];
+                initiateScratch({ clientX: t.clientX, clientY: t.clientY });
+            });
+            scratchCanvas.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                drawScratchStroke({ clientX: t.clientX, clientY: t.clientY });
+            });
+            scratchCanvas.addEventListener('touchend', terminateScratch);
+        }
+
+        function initiateScratch(e) {
+            scratchingActive = true;
+            drawScratchStroke(e);
+        }
+
+        function drawScratchStroke(e) {
+            if (!scratchingActive) return;
+            const rect = scratchCanvas.getBoundingClientRect();
+            
+            const pxX = (e.clientX - rect.left) * (scratchCanvas.width / rect.width);
+            const pxY = (e.clientY - rect.top) * (scratchCanvas.height / rect.height);
+
+            scratchCtx.globalCompositeOperation = 'destination-out';
+            scratchCtx.beginPath();
+            scratchCtx.arc(pxX, pxY, 16, 0, Math.PI * 2);
+            scratchCtx.fill();
+
+            checkEraseProgress();
+        }
+
+        function terminateScratch() {
+            scratchingActive = false;
+        }
+
+        function checkEraseProgress() {
+            if (appState.scratchCleared) return;
+
+            const map = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+            const rawData = map.data;
+            let clearedCount = 0;
+
+            for (let i = 3; i < rawData.length; i += 32) {
+                if (rawData[i] === 0) clearedCount++;
+            }
+
+            const parsedSamplesCount = rawData.length / 32;
+            const scratchedRatio = (clearedCount / parsedSamplesCount) * 100;
+
+            if (scratchedRatio > 55) {
+                appState.scratchCleared = true;
+                
+                // Clear and fade canvas out beautifully
+                gsap.to(scratchCanvas, {
+                    opacity: 0, duration: 0.5, onComplete: () => {
+                        scratchCanvas.style.display = 'none';
+                        document.getElementById('scratch-status').innerHTML = "Surprise Pass Activated! 🎟️✨";
+                        document.getElementById('scratch-status').style.color = '#dfb76c';
+                        
+                        pushToast("Congratulations SornA! Voucher secured. 🎁");
+                        evaluateLetterUnlocks();
+                    }
+                });
+            }
+        }
+
+        /* ==========================================================================
+           ENVELOPE DECK UNLOCKS & GRAND CLIMAX
+           ========================================================================== */
+        function evaluateLetterUnlocks() {
+            const lockLbl = document.getElementById('lock-text');
+            const iconBox = document.getElementById('lock-ui');
+
+            if (appState.cakeCut && appState.scratchCleared) {
+                appState.letterUnlocked = true;
+
+                // Transmute sealed lock icon to pulsing heart
+                iconBox.innerHTML = `
+                    <svg class="lock-icon-svg" viewBox="0 0 24 24" style="fill: #fbcbc9; width: 48px; height: 48px;">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span class="text-xs text-rose-400 font-bold tracking-wide mt-2">Open SornA's Unfolded Letter! 💌</span>
+                `;
+                pushToast("A secret love letter is waiting for you below... 🕊️✨");
+            } else {
+                let pendingActions = [];
+                if (!appState.cakeCut) pendingActions.push("blow candles 🎂");
+                if (!appState.scratchCleared) pendingActions.push("clear voucher coat 🎁");
+                lockLbl.textContent = `Locked • Please ${pendingActions.join(' & ')}`;
+            }
+        }
+
+        function tryOpenLetter() {
+            if (!appState.letterUnlocked) {
+                pushToast("Complete preceding birthday tasks to break the heart seal! 🔒");
+                return;
+            }
+
+            const gate = document.getElementById('envelope-letter-gate');
+            const letter = document.getElementById('unfolded-letter-box');
+
+            gsap.to(gate, {
+                scale: 0, rotateY: 180, duration: 0.7, ease: 'power2.inOut', onComplete: () => {
+                    gate.style.display = 'none';
+                    letter.style.display = 'flex';
+                    
+                    // Unfold sliding letter card height
+                    letter.classList.add('unfolded');
+                    gsap.fromTo(letter, { y: 30, scale: 0.95 }, { y: 0, scale: 1, duration: 1.2, ease: 'power4.out' });
+                }
+            });
+        }
+
+        /* CLIMAX GRADUATION SHOWS (Confetti Rain & Swirling 3D Space) */
+        function fireGrandClimax() {
+            if (appState.climaxFired) return;
+            appState.climaxFired = true;
+
+            const btn = document.getElementById('btn-grand-climax');
+            const finalTitle = document.getElementById('final-climax-greeting');
+
+            gsap.to(btn, {
+                opacity: 0, y: -20, duration: 0.4, onComplete: () => {
+                    btn.style.display = 'none';
+                    finalTitle.classList.remove('hidden');
+                    gsap.to(finalTitle, { opacity: 1, y: 0, duration: 1 });
+                }
+            });
+
+            // Burst particle states inside 3D environment space
+            if (particles) {
+                gsap.to(particles.rotation, { y: '+=3.5', x: '+=1.5', duration: 4.5, ease: 'power3.out' });
+            }
+
+            // Launch multi-stage continuous celebration rain
+            const expiry = Date.now() + 4.5 * 1000;
+            
+            // Side bursts immediate
+            confetti({ particleCount: 140, angle: 60, spread: 55, origin: { x: 0, y: 0.85 } });
+            confetti({ particleCount: 140, angle: 120, spread: 55, origin: { x: 1, y: 0.85 } });
+
+            (function frameRain() {
+                // Emoji love particles falling
+                confetti({
+                    particleCount: 2,
+                    angle: 90,
+                    spread: 120,
+                    origin: { x: Math.random(), y: 0 },
+                    colors: ['#ffe17d', '#ff9ee2'],
+                    scalar: 2.5
+                });
+
+                // Standard luxury glitter confetti
+                confetti({
+                    particleCount: 2,
+                    angle: 90,
+                    spread: 360,
+                    origin: { x: Math.random(), y: 0 },
+                    colors: ['#fbcbc9', '#fceade', '#e8c5c8']
+                });
+
+                if (Date.now() < expiry) {
+                    requestAnimationFrame(frameRain);
+                }
+            }());
+
+            pushToast("Happy Birthday to my favorite human, SornA! ❤️");
+        }
+
+        /* ==========================================================================
+           MICRO TOASTS BUILDER UTILS (No Browser alerts inside Canvas iframe)
+           ========================================================================== */
+        function pushToast(message) {
+            const wrap = document.getElementById('toast-wrapper');
+            const toast = document.createElement('div');
+            toast.classList.add('toast-bubble');
+            toast.innerHTML = `<span>💖</span> ${message}`;
+
+            wrap.appendChild(toast);
+            
+            // Trigger flow enter
+            setTimeout(() => toast.classList.add('show'), 100);
+
+            // Cleanup
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 600);
+            }, 3500);
+        }
+
+        /* INITIALIZER ENTRYPOINT ON DOM READY */
+        window.onload = function() {
+            initThreeBackground();
+
+            // Start global background ambient heart spawner for the continuous warm glowing hearts layer
+            setInterval(spawnAmbientHeart, 1200);
+            for (let i = 0; i < 4; i++) {
+                setTimeout(spawnAmbientHeart, i * 400);
+            }
+            
+            // Set initial state of the beautiful handwritten paper note slip on first load
+            gsap.set('#handwritten-note-paper', { scale: 0.95, opacity: 0.85, rotate: -1 });
+        };
+    </script>
+</body>
+</html>
