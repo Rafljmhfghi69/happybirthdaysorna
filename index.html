@@ -517,6 +517,20 @@
         .polaroid-btn:active {
             transform: translateY(1px);
         }
+
+        /* FIX: Image container auto-resize */
+        .polaroid-card .relative {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .polaroid-card #polaroid-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -672,7 +686,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-4" onclick="navigateStage(4)">Walk down Memory Lane 🎬</button>
         </section>
 
-        <!-- STAGE 4: POLAROID WITH PREVIOUS/NEXT BUTTONS (ImgBB direct link inserted) -->
+        <!-- STAGE 4: POLAROID WITH PREVIOUS/NEXT BUTTONS (ALL 7 PHOTOS ADDED) -->
         <section id="step-4" class="step-card w-full max-w-3xl flex flex-col items-center gap-6 hidden opacity-0 relative">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(3)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -682,7 +696,7 @@
             <div class="polaroid-wrapper cursor-grab flex items-center justify-center w-full max-w-xs py-4">
                 <div class="polaroid-card p-4 rounded-md pb-8 bg-white/85 backdrop-blur-sm text-stone-800 shadow-2xl w-64 rotate-2 transform origin-center" id="parallax-polaroid">
                     <div class="w-full h-56 bg-stone-100 overflow-hidden rounded relative">
-                        <img id="polaroid-img" class="w-full h-full object-cover" src="" alt="Memory">
+                        <img id="polaroid-img" class="w-full h-full object-contain" src="" alt="Memory">
                         <div id="polaroid-alt-ui" class="absolute inset-0 bg-gradient-to-tr from-[#fbcbc9] to-rose-300 hidden flex-col items-center justify-center p-4 text-center"><span class="text-stone-800 font-bold text-xs">Capturing Infinity 📸</span></div>
                     </div>
                     <div class="polaroid-nav">
@@ -768,15 +782,24 @@
         ];
         let currentHandwrittenIndex = -1;
 
-        // ========== POLAROID PHOTOS & CAPTIONS (ImgBB direct links) ==========
-        // Add more image links and captions here as you upload more photos
+        // ========== POLAROID PHOTOS & CAPTIONS (UPDATED WITH 7 PHOTOS) ==========
         const photoList = [
-            "https://i.ibb.co.com/qLpHz6k0/photo-2026-06-04-23-17-40.jpg"
-            // Add more: "https://i.ibb.co.com/your-second-photo.jpg",
+            "https://i.ibb.co.com/qLpHz6k0/photo-2026-06-04-23-17-40.jpg",       // Photo 1
+            "https://i.ibb.co.com/0jn3fY5X/Screenshot-20260604-233225.jpg",      // Photo 2
+            "https://i.ibb.co.com/Vc65Ds54/Screenshot-20260604-233636.jpg",      // Photo 3
+            "https://i.ibb.co.com/v4CjD3B3/Screenshot-20260605-000410.jpg",      // Photo 4
+            "https://i.ibb.co.com/qM7cS2nB/Screenshot-20260605-000538.jpg",      // Photo 5
+            "https://i.ibb.co.com/CLMzKLn/Screenshot-20260605-001023.jpg",       // Photo 6
+            "https://i.ibb.co.com/yFmdf2Jm/Screenshot-20260605-001242.jpg"       // Photo 7
         ];
         const captionList = [
-            "My most favorite person"
-            // Add more: "Our first sunset",
+            "My most favorite person",                          // Photo 1 caption
+            "The text that changed everything.",                // Photo 2 caption
+            "The best 'yes' of my life.",                       // Photo 3 caption
+            "Our first month of forever.",                      // Photo 4 caption
+            "Best compliment of my life I have received.",      // Photo 5 caption
+            "The text that made me cry.",                       // Photo 6 caption
+            "Our unfiltered romance jokes"                      // Photo 7 caption
         ];
         let currentPhotoIndex = 0;
 
@@ -787,6 +810,7 @@
                 img.src = photoList[currentPhotoIndex];
                 caption.innerText = captionList[currentPhotoIndex];
                 img.onerror = () => {
+                    console.warn(`Image failed to load: ${photoList[currentPhotoIndex]}`);
                     document.getElementById('polaroid-alt-ui').style.display = 'flex';
                     img.style.display = 'none';
                 };
