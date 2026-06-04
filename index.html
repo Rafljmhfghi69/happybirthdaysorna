@@ -713,17 +713,17 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6" onclick="navigateStage(5)">Surprise Wish 🎁</button>
         </section>
 
-        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER (with reduced top spacing) -->
-        <section id="step-5" class="step-card w-full max-w-2xl flex flex-col items-center gap-4 hidden opacity-0 relative">
-            <!-- Back button remains unchanged -->
-            <button class="absolute top-2 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(4)">
+        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER (FIXED SPACING AND UPDATED TEXT) -->
+        <section id="step-5" class="step-card w-full max-w-2xl flex flex-col items-center gap-4 hidden opacity-0 relative" style="padding-top: 0; margin-top: 0;">
+            <!-- Back button moved higher -->
+            <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(4)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
                 Back
             </button>
-            <!-- Reduced top padding from pt-8 md:pt-0 to pt-2 md:pt-0 -->
-            <div class="text-center pt-2 md:pt-0"><span class="text-5xl">🍰</span><h2 class="luxury-title text-3xl md:text-4xl mt-2">My Birthday Wish For You</h2></div>
-            <p class="text-stone-600 leading-relaxed text-sm md:text-base mt-1 max-w-md mx-auto text-center">May this year open doors of immense joy, success, and pure magic for you, SornA. You deserve nothing short of absolute stellar happiness.</p>
-            <div class="flex flex-col items-center gap-2 mt-2">
+            <!-- Removed all top padding/margin -->
+            <div class="text-center pt-0 mt-0"><span class="text-5xl">🍰</span><h2 class="luxury-title text-3xl md:text-4xl mt-1">My Birthday Wish For You</h2></div>
+            <p class="text-stone-600 leading-relaxed text-sm md:text-base mt-0 max-w-md mx-auto text-center">May this year open doors of immense joy and pure magic for you SornA. You deserve nothing short of absolute steller happiness.</p>
+            <div class="flex flex-col items-center gap-2 mt-1">
                 <span class="text-xs uppercase font-bold tracking-widest text-stone-500">Scratch to reveal surprise pass</span>
                 <div class="scratch-card-box">
                     <div class="scratch-reward"><span class="text-[10px] uppercase font-bold tracking-widest text-rose-400">Golden Voucher 🏷️</span><h4 class="text-base font-bold text-stone-800 mt-1 leading-snug">✨ One Complete Luxury Day out & Dinner Gift! ✨</h4><p class="text-[9px] text-stone-500 italic mt-1">Redeemable whenever SornA wishes.</p></div>
@@ -793,17 +793,16 @@
             "https://i.ibb.co.com/xKg880pF/Screenshot-20260605-013422.jpg"       // Photo 7
         ];
         const captionList = [
-            "My most favorite person",                          // Photo 1 caption
-            "The text that changed everything.",                // Photo 2 caption
-            "The best 'yes' of my life.",                       // Photo 3 caption
-            "Our first month of forever.",                      // Photo 4 caption
-            "Happy two months anniversary",                     // Photo 5 caption
-            "The text that made me cry.",                       // Photo 6 caption
-            "Our unfiltered romance jokes"                      // Photo 7 caption
+            "My most favorite person",
+            "The text that changed everything.",
+            "The best 'yes' of my life.",
+            "Our first month of forever.",
+            "Happy two months anniversary",
+            "The text that made me cry.",
+            "Our unfiltered romance jokes"
         ];
         let currentPhotoIndex = 0;
 
-        // Preload all polaroid images on page load
         function preloadPolaroidImages() {
             for (let i = 0; i < photoList.length; i++) {
                 const img = new Image();
@@ -818,7 +817,6 @@
                 img.src = photoList[currentPhotoIndex];
                 caption.innerText = captionList[currentPhotoIndex];
                 img.onerror = () => {
-                    console.warn(`Image failed to load: ${photoList[currentPhotoIndex]}`);
                     document.getElementById('polaroid-alt-ui').style.display = 'flex';
                     img.style.display = 'none';
                 };
@@ -1201,7 +1199,6 @@
             }, 3500);
         }
 
-        /* ========== INIT ========== */
         window.onload = function() {
             initThreeBackground();
             preloadImages();
