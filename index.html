@@ -686,7 +686,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-4" onclick="navigateStage(4)">Walk down Memory Lane 🎬</button>
         </section>
 
-        <!-- STAGE 4: POLAROID WITH PREVIOUS/NEXT BUTTONS (ALL 7 PHOTOS ADDED) -->
+        <!-- STAGE 4: POLAROID WITH PREVIOUS/NEXT BUTTONS (ALL 7 PHOTOS UPDATED) -->
         <section id="step-4" class="step-card w-full max-w-3xl flex flex-col items-center gap-6 hidden opacity-0 relative">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(3)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -788,20 +788,28 @@
             "https://i.ibb.co.com/0jn3fY5X/Screenshot-20260604-233225.jpg",      // Photo 2
             "https://i.ibb.co.com/Vc65Ds54/Screenshot-20260604-233636.jpg",      // Photo 3
             "https://i.ibb.co.com/v4CjD3B3/Screenshot-20260605-000410.jpg",      // Photo 4
-            "https://i.ibb.co.com/qM7cS2nB/Screenshot-20260605-000538.jpg",      // Photo 5
+            "https://i.ibb.co.com/0jFqXNQm/Screenshot-20260605-013527.jpg",      // Photo 5 (UPDATED)
             "https://i.ibb.co.com/CLMzKLn/Screenshot-20260605-001023.jpg",       // Photo 6
-            "https://i.ibb.co.com/yFmdf2Jm/Screenshot-20260605-001242.jpg"       // Photo 7
+            "https://i.ibb.co.com/xKg880pF/Screenshot-20260605-013422.jpg"       // Photo 7 (UPDATED)
         ];
         const captionList = [
             "My most favorite person",                          // Photo 1 caption
             "The text that changed everything.",                // Photo 2 caption
             "The best 'yes' of my life.",                       // Photo 3 caption
             "Our first month of forever.",                      // Photo 4 caption
-            "Best compliment of my life I have received.",      // Photo 5 caption
+            "Happy two months anniversary",                     // Photo 5 caption (UPDATED)
             "The text that made me cry.",                       // Photo 6 caption
             "Our unfiltered romance jokes"                      // Photo 7 caption
         ];
         let currentPhotoIndex = 0;
+
+        // Preload all polaroid images on page load
+        function preloadPolaroidImages() {
+            for (let i = 0; i < photoList.length; i++) {
+                const img = new Image();
+                img.src = photoList[i];
+            }
+        }
 
         function updatePolaroid() {
             const img = document.getElementById('polaroid-img');
@@ -1199,6 +1207,7 @@
         window.onload = function() {
             initThreeBackground();
             preloadImages();
+            preloadPolaroidImages(); // Preload polaroid images on page load
             setInterval(spawnAmbientHeart, 1200);
             for (let i = 0; i < 4; i++) setTimeout(spawnAmbientHeart, i * 400);
             gsap.set('#handwritten-note-paper', { scale: 0, opacity: 0 });
