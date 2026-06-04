@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* ========== ALL STYLES (unchanged) ========== */
+        /* ========== ALL STYLES (same as before, with hidden slip) ========== */
         :root {
             --primary-rose: #ff4d79;
             --rose-gold-dark: #b88b90;
@@ -322,7 +322,7 @@
         .env-lavender { background: #f3e5f5; border-color: rgba(184, 139, 144, 0.25); }
         .env-cream { background: #faf8f5; border-color: rgba(110, 71, 59, 0.2); }
 
-        /* PAPER FULLY REMOVED: clean container for the image */
+        /* PAPER FULLY REMOVED: clean container for the image - initially hidden */
         .handwritten-slip-container {
             width: 100%;
             position: relative;
@@ -334,6 +334,7 @@
             transform-origin: center;
             opacity: 0;
             transform: scale(0) rotate(-5deg);
+            will-change: transform, opacity;
         }
         .handwritten-image-wrapper {
             width: 100%;
@@ -459,7 +460,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-4 opacity-40 pointer-events-none" id="btn-next-step2" onclick="navigateStage(3)">Sweet Keepsakes 💖</button>
         </section>
 
-        <!-- STAGE 3 (paper removed, sequential image cycling) -->
+        <!-- STAGE 3 (paper removed, sequential images, initially hidden, fixed first image) -->
         <section id="step-3" class="step-card w-full max-w-4xl flex flex-col items-center gap-6 hidden opacity-0 relative">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(2)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -501,7 +502,7 @@
                         <button class="btn-luxury text-xs px-5 py-2.5 rounded-full font-bold mt-2" onclick="drawReason(event)">Draw Slip 💌</button>
                     </div>
                 </div>
-                <!-- Handwritten note area: only the image (sequential) -->
+                <!-- Handwritten note area: initially blank and hidden -->
                 <div class="md:col-span-3 flex flex-col justify-center items-center w-full">
                     <div class="handwritten-slip-container w-full">
                         <div class="handwritten-slip" id="handwritten-note-paper">
@@ -515,7 +516,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-4" onclick="navigateStage(4)">Walk down Memory Lane 🎬</button>
         </section>
 
-        <!-- STAGE 4 and 5 unchanged (same as before) -->
+        <!-- STAGE 4 and 5 unchanged -->
         <section id="step-4" class="step-card w-full max-w-3xl flex flex-col items-center gap-6 hidden opacity-0 relative">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(3)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -579,19 +580,41 @@
             climaxFired: false
         };
 
-        // ========== TWO IMAGES (sequential order) ==========
+        // ========== ALL 18 HANDWRITTEN NOTE IMAGES (in sequential order) ==========
         const handwrittenNoteImages = [
-            "https://i.ibb.co.com/hJbdPZtH/photo-2026-06-03-17-03-23.jpg",  // First note
-            "https://i.ibb.co.com/jkCN6WyG/photo-2026-06-03-19-44-57.jpg"   // Second note
-            // Add more images in order here
+            "https://i.ibb.co.com/hJbdPZtH/photo-2026-06-03-17-03-23.jpg",   // 1
+            "https://i.ibb.co.com/jkCN6WyG/photo-2026-06-03-19-44-57.jpg",   // 2
+            "https://i.ibb.co.com/CpYn6vx1/photo-2026-06-04-08-17-41.jpg",   // 3
+            "https://i.ibb.co.com/MyxK7bB1/photo-2026-06-04-08-18-25.jpg",   // 4
+            "https://i.ibb.co.com/Rkx3Zb2z/photo-2026-06-04-08-23-07.jpg",   // 5
+            "https://i.ibb.co.com/ksqYqpNL/photo-2026-06-04-08-23-45.jpg",   // 6
+            "https://i.ibb.co.com/DgztH9QB/photo-2026-06-04-08-24-23.jpg",   // 7
+            "https://i.ibb.co.com/Mx5XPqLh/photo-2026-06-04-08-24-53.jpg",   // 8
+            "https://i.ibb.co.com/6c7fHwPp/photo-2026-06-04-08-25-57.jpg",   // 9
+            "https://i.ibb.co.com/XxYhnKbQ/photo-2026-06-04-08-26-57.jpg",   // 10
+            "https://i.ibb.co.com/LTwpxFf/photo-2026-06-04-08-27-27.jpg",   // 11
+            "https://i.ibb.co.com/v4zdxKtN/photo-2026-06-04-08-27-51.jpg",   // 12
+            "https://i.ibb.co.com/WNg7LWqN/photo-2026-06-04-08-28-23.jpg",   // 13
+            "https://i.ibb.co.com/vvRSb58P/photo-2026-06-04-08-28-51.jpg",   // 14
+            "https://i.ibb.co.com/b56VbszL/photo-2026-06-04-08-29-16.jpg",   // 15
+            "https://i.ibb.co.com/39GF9z5q/photo-2026-06-04-08-29-47.jpg",   // 16
+            "https://i.ibb.co.com/wZcRzFx9/photo-2026-06-04-08-30-12.jpg",   // 17
+            "https://i.ibb.co.com/W94JqZn/photo-2026-06-04-08-30-54.jpg"    // 18
         ];
-        let currentImageIndex = 0;   // Start with the first image
-        // =================================================
 
-        let lastReasonIndex = -1; // kept for compatibility but not used in sequential mode
+        // Start with index -1 so that first increment becomes 0 (first image)
+        let currentImageIndex = -1;
 
-        // Background Three.js (same as before)
+        // Preload all images to eliminate lag
+        function preloadImages() {
+            for (let i = 0; i < handwrittenNoteImages.length; i++) {
+                const img = new Image();
+                img.src = handwrittenNoteImages[i];
+            }
+        }
+
         let scene, camera, renderer, particles;
+
         function initThreeBackground() {
             const container = document.getElementById('three-canvas-container');
             scene = new THREE.Scene();
@@ -616,9 +639,9 @@
             window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
             animateThree();
         }
+
         function animateThree() { requestAnimationFrame(animateThree); if(particles) { particles.rotation.y += 0.0012; particles.rotation.x += 0.0006; } renderer.render(scene, camera); }
 
-        // Ambient hearts (same)
         function spawnAmbientHeart() {
             const viewport = document.getElementById('ambient-heart-viewport');
             if (!viewport) return;
@@ -640,7 +663,6 @@
             el.addEventListener('animationend', () => el.remove());
         }
 
-        // Navigation (same)
         function navigateStage(nextStage) {
             const currentEl = document.getElementById(`step-${appState.stage}`);
             const nextEl = document.getElementById(`step-${nextStage}`);
@@ -679,7 +701,6 @@
         btnNo.addEventListener('mouseover', teleportNoButton);
         btnNo.addEventListener('touchstart', teleportNoButton);
 
-        // Cake functions (same)
         function revealAndAssembleCake() {
             const revealBtn = document.getElementById('btn-reveal-cake');
             gsap.to(revealBtn, { scale: 0, opacity: 0, duration: 0.5, ease: 'power2.in', onComplete: () => { revealBtn.style.display = 'none'; runCakeAssemblyAnimation(); } });
@@ -748,19 +769,21 @@
             holder.appendChild(el); el.addEventListener('animationend',()=>el.remove());
         }
 
-        // SEQUENTIAL drawReason: cycles through images in order
+        // FIXED: increment before showing so first click shows image 0 (first image)
         function drawReason(event) {
             if (!handwrittenNoteImages.length) { pushToast("Please add handwritten note images first! 📸"); return; }
-            // Move to next image index (circular)
+            // Increment index first (circular)
             currentImageIndex = (currentImageIndex + 1) % handwrittenNoteImages.length;
             const slipPaper = document.getElementById('handwritten-note-paper');
             const noteImg = document.getElementById('handwritten-note-img');
+            
             gsap.timeline()
                 .to(slipPaper, { scale: 0.1, rotate: -15, opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
                     noteImg.src = handwrittenNoteImages[currentImageIndex];
                     noteImg.alt = "Handwritten note";
                 }})
                 .to(slipPaper, { scale: 1, rotate: -1.5 + (Math.random() * 3), opacity: 1, duration: 0.75, ease: 'back.out(1.3)' });
+            
             spawnHeartExplosions(event.clientX, event.clientY);
         }
 
@@ -866,10 +889,13 @@
 
         window.onload = function(){
             initThreeBackground();
+            preloadImages(); // Preload all images
             setInterval(spawnAmbientHeart,1200);
             for(let i=0;i<4;i++) setTimeout(spawnAmbientHeart,i*400);
-            gsap.set('#handwritten-note-paper', { scale: 0.95, opacity: 0.85, rotate: -1 });
-            if(handwrittenNoteImages.length) document.getElementById('handwritten-note-img').src = handwrittenNoteImages[0];
+            // Ensure handwritten slip is completely hidden initially
+            gsap.set('#handwritten-note-paper', { scale: 0, opacity: 0 });
+            // No image src set initially (blank)
+            document.getElementById('handwritten-note-img').src = "";
         };
     </script>
 </body>
