@@ -626,10 +626,8 @@
     <audio id="ambient-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
-    <!-- YOUR VOICE MESSAGE (from Vocaroo) -->
-    <audio id="birthday-voice" preload="auto">
-        <source src="https://vocaroo.com/media_command.php?media=17KJnE6WBuZK&command=download_mp3" type="audio/mpeg">
-    </audio>
+    <!-- YOUR VOICE MESSAGE - Fixed with preloader -->
+    <audio id="birthday-voice" preload="auto"></audio>
 
     <div id="balloon-container"></div>
 
@@ -679,7 +677,7 @@
                 Back
             </button>
             <div class="pt-8 md:pt-0"><div class="text-5xl">🍫</div><h1 class="luxury-title text-3xl md:text-4xl">Happy Birthday, SornA!</h1></div>
-            <p class="text-stone-600 leading-relaxed text-xs md:text-sm max-w-md mx-auto">Let’s celebrate another beautiful year of you! Tap below to reveal your birthday cake, make a silent wish, and blow out the candle.</p>
+            <p class="text-stone-600 leading-relaxed text-xs md:text-sm max-w-md mx-auto">Let's celebrate another beautiful year of you! Tap below to reveal your birthday cake, make a silent wish, and blow out the candle.</p>
             <div class="grid grid-cols-2 gap-4 w-full max-w-lg mt-2">
                 <button class="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl glass-card border-white/40 hover:bg-[#fbcbc9]/20 transition-all text-xs font-semibold uppercase text-stone-800" id="trigger-music" onclick="toggleMusic()"><span>🎵</span> Play Music</button>
                 <button class="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl glass-card border-white/40 hover:bg-[#fbcbc9]/20 transition-all text-xs font-semibold uppercase text-stone-800" id="trigger-balloons" onclick="launchBalloonBurst()"><span>🎈</span> Fly Balloons</button>
@@ -862,8 +860,82 @@
             cakeAssembled: false,
             scratchCleared: false,
             letterUnlocked: false,
-            climaxFired: false
+            climaxFired: false,
+            voiceReady: false  // Track if voice message is loaded
         };
+
+        // Voice message preloader - fixes the Vocaroo issue
+        const VOICE_MESSAGE_URL = "https://vocaroo.com/media_command.php?media=17KJnE6WBuZK&command=download_mp3";
+        let voiceBlobUrl = null;
+
+        async function preloadVoiceMessage() {
+            const audioEl = document.getElementById('birthday-voice');
+            if (!audioEl) return;
+            
+            try {
+                console.log("Attempting to load voice message from Vocaroo...");
+                // Fetch the Vocaroo URL - it will redirect to the actual MP3
+                const response = await fetch(VOICE_MESSAGE_URL, {
+                    method: 'GET',
+                    redirect: 'follow',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    // Get the audio data as blob
+                    const audioBlob = await response.blob();
+                    // Check if it's actually an audio file
+                    if (audioBlob.type.includes('audio') || audioBlob.size > 10000) {
+                        // Create a blob URL for the audio
+                        voiceBlobUrl = URL.createObjectURL(audioBlob);
+                        audioEl.src = voiceBlobUrl;
+                        appState.voiceReady = true;
+                        console.log("Voice message loaded successfully!");
+                        
+                        // Test load the audio
+                        audioEl.load();
+                    } else {
+                        throw new Error("Received non-audio data");
+                    }
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.warn("Could not load voice message from Vocaroo:", error);
+                console.log("Using fallback speech synthesis instead");
+                appState.voiceReady = false;
+            }
+        }
+
+        // Function to play the voice message
+        function playVoiceMessage() {
+            const audioEl = document.getElementById('birthday-voice');
+            
+            if (appState.voiceReady && audioEl && audioEl.src && audioEl.src !== "") {
+                // Reset and play
+                audioEl.currentTime = 0;
+                audioEl.play().catch(err => {
+                    console.log("Voice playback failed:", err);
+                    triggerVoiceSynthesisFallback();
+                });
+            } else {
+                // Fallback to speech synthesis
+                triggerVoiceSynthesisFallback();
+            }
+        }
+
+        function triggerVoiceSynthesisFallback() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance("Happy Birthday, SornA!");
+                u.pitch = 1.15;
+                u.rate = 0.9;
+                const voices = window.speechSynthesis.getVoices();
+                const preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
+                if (preferredVoice) u.voice = preferredVoice;
+                window.speechSynthesis.speak(u);
+            }
+        }
 
         // ========== HANDWRITTEN NOTE IMAGES (18 ImgBB links) ==========
         const handwrittenNoteImages = [
@@ -1090,15 +1162,10 @@
             blowBtn.classList.add('opacity-40', 'pointer-events-none');
             candle.classList.add('extinguished');
             pushToast("Wish sent to the stars! 🌟❤️");
-            const customVoice = document.getElementById('birthday-voice');
-            if (customVoice && customVoice.src && !customVoice.src.includes("path-to-your-recorded-voice.mp3")) {
-                customVoice.play().catch(err => {
-                    console.log("Voice note playback failed:", err);
-                    triggerVoiceSynthesisFallback();
-                });
-            } else {
-                triggerVoiceSynthesisFallback();
-            }
+            
+            // Play the voice message (fixed!)
+            playVoiceMessage();
+            
             gsap.timeline()
                 .set(smokePuff, { opacity: 1 })
                 .to(smokeLine, { strokeDashoffset: 0, duration: 0.5, ease: 'power1.out' })
@@ -1112,18 +1179,6 @@
                     nextBtn.classList.remove('opacity-40', 'pointer-events-none');
                     evaluateLetterUnlocks();
                 });
-        }
-
-        function triggerVoiceSynthesisFallback() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance("Happy Birthday, SornA!");
-                u.pitch = 1.15; u.rate = 0.9;
-                const voices = window.speechSynthesis.getVoices();
-                const preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
-                if (preferredVoice) u.voice = preferredVoice;
-                window.speechSynthesis.speak(u);
-            }
         }
 
         /* ========== MUSIC & BALLOONS ========== */
@@ -1349,7 +1404,6 @@
                 confetti({ particleCount: 2, angle: 90, spread: 360, origin: { x: Math.random(), y: 0 }, colors: ['#fbcbc9', '#fceade', '#e8c5c8'] });
                 if (Date.now() < expiry) requestAnimationFrame(frameRain);
             })();
-            // No toast message anymore
         }
 
         function pushToast(msg) {
@@ -1369,6 +1423,7 @@
             initThreeBackground();
             preloadImages();
             preloadPolaroidImages();
+            preloadVoiceMessage();  // Preload the voice message
             setInterval(spawnAmbientHeart, 1200);
             for (let i = 0; i < 4; i++) setTimeout(spawnAmbientHeart, i * 400);
             gsap.set('#handwritten-note-paper', { scale: 0, opacity: 0 });
