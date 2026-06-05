@@ -485,7 +485,6 @@
             opacity: 1;
             padding: 40px;
         }
-        /* Word animation styles - initial hidden */
         .letter-word {
             display: inline-block;
             opacity: 0;
@@ -593,6 +592,22 @@
         .step-card {
             transition: opacity 0.4s ease;
         }
+
+        /* 6th page video player styling */
+        .wistia-responsive {
+            position: relative;
+            width: 100%;
+            height: auto;
+            background: black;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        }
+        wistia-player {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -607,8 +622,9 @@
     <div id="three-canvas-container"></div>
     <div id="ambient-heart-viewport"></div>
 
+    <!-- UPDATED MUSIC: Calm lo-fi track (direct MP3) -->
     <audio id="ambient-audio" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
     <audio id="birthday-voice" preload="auto">
         <source src="path-to-your-recorded-voice.mp3" type="audio/mpeg">
@@ -700,7 +716,6 @@
             </button>
             <div class="text-center pt-8 md:pt-0"><h2 class="luxury-title text-3xl md:text-4xl">Few Things I Adore About You</h2><p class="text-stone-500 text-xs md:text-sm mt-1">Slices of magic that make you who you are</p></div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-4">
-                <!-- Bento cards (unchanged) -->
                 <div class="glass-card p-6 md:p-8 md:col-span-2 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform"><h3 class="text-lg font-semibold text-stone-800">✨ Your Unique Personality</h3><p class="text-stone-600 text-sm leading-relaxed">There is absolutely no one else in the world like you. The unique way you show your kindness, care, love. How you manage everything around you is just amazing.</p></div>
                 <div class="glass-card p-6 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform"><h3 class="text-lg font-semibold text-stone-800">😊 Your Beautiful Smile</h3><p class="text-stone-600 text-sm leading-relaxed">How your smile is capable of healing the deepest aches and making me forget the pain. The way your entire face lights up when you smile from the very depths of your heart.</p></div>
                 <div class="glass-card p-6 flex flex-col justify-center gap-2 hover:-translate-y-1 transition-transform"><h3 class="text-lg font-semibold text-stone-800">💇‍♀️ Your Long Hair</h3><p class="text-stone-600 text-sm leading-relaxed">Your long hair holds a magic of its own. It looks like a waterfall of silk. The little redness of it. Your hair has the kind of stunning length people spend years dreaming about.</p></div>
@@ -774,7 +789,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6" onclick="navigateStage(5)">Surprise Wish 🎁</button>
         </section>
 
-        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER (word-by-word animation) -->
+        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER (word‑by‑word animation) -->
         <section id="step-5" class="step-card w-full max-w-2xl flex flex-col items-center gap-3 hidden opacity-0 relative" style="padding-top: 0; margin-top: -1rem;">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(4)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -800,7 +815,6 @@
                     <div id="lock-text" class="text-xs text-stone-500 font-semibold tracking-wide mt-2">Envelope Sealed • Complete Tasks</div>
                 </div>
             </div>
-            <!-- Letter card with word-by-word animation -->
             <article class="letter-card glass-card w-full flex flex-col gap-4 text-left" id="unfolded-letter-box">
                 <div id="letter-content" class="max-h-64 overflow-y-auto pr-2 text-stone-700 text-sm md:text-base leading-relaxed">
                     <p>Dearest SornA,</p>
@@ -808,30 +822,34 @@
                     <p>This letter is a promise—to always cheer for your dreams, to stand by you in quiet moments, and to treasure the lovely personality you are.</p>
                     <p>May the road ahead bring you boundless success and all the cozy joy in the world.</p>
                     <p class="text-right cursive-title text-3xl mt-2">With all my heart,</p>
-                    <p class="text-right text-xs text-stone-400 italic">Your Favorite Human</p>
+                    <!-- CHANGED: "Your Favorite Human" → "Amin" -->
+                    <p class="text-right text-xs text-stone-400 italic">Amin</p>
                 </div>
                 <button class="btn-luxury py-4 rounded-full text-xs font-bold tracking-widest uppercase mt-4 w-full" id="btn-grand-climax" onclick="fireGrandClimax()">Celebrate! 🥂</button>
                 <div id="final-climax-greeting" class="hidden text-center text-xl md:text-2xl font-bold luxury-title py-4 opacity-0 transform translate-y-4 transition-all duration-1000">Happy Birthday, SornA! ❤️</div>
             </article>
-            <button id="btn-to-stage6" class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6 hidden" onclick="navigateStage(6)">Your Man's Love 💌</button>
+            <!-- BUTTON: emoji removed -->
+            <button id="btn-to-stage6" class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6 hidden" onclick="navigateStage(6)">Your Man's Love</button>
         </section>
 
-        <!-- STAGE 6: NEW PAGE (blank, for video messages) -->
-        <section id="step-6" class="step-card w-full max-w-2xl glass-card p-8 md:p-12 text-center flex flex-col items-center gap-6 hidden opacity-0 relative">
+        <!-- STAGE 6: ONLY VIDEO PLAYER (no text, no emojis) -->
+        <section id="step-6" class="step-card w-full max-w-4xl glass-card p-6 md:p-8 flex flex-col items-center justify-center gap-6 hidden opacity-0 relative">
             <button class="absolute top-6 left-6 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(5)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
                 Back
             </button>
-            <div class="text-center pt-4 md:pt-0">
-                <span class="text-5xl">🎥</span>
-                <h2 class="luxury-title text-3xl md:text-4xl mt-2">Video Messages</h2>
-                <p class="text-stone-500 text-sm mt-1">Special videos from me to you ❤️</p>
-            </div>
-            <div class="w-full space-y-4">
-                <div class="glass-card p-4 rounded-xl text-stone-600 text-sm">
-                    💌 Your video messages will appear here.<br>
-                    (Replace this placeholder with your actual video embed codes.)
-                </div>
+            <div class="w-full max-w-3xl mx-auto">
+                <script src="https://fast.wistia.com/player.js" async></script>
+                <script src="https://fast.wistia.com/embed/ry7q6dmqja.js" async type="module"></script>
+                <style>
+                    wistia-player[media-id='ry7q6dmqja']:not(:defined) {
+                        background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/ry7q6dmqja/swatch');
+                        display: block;
+                        filter: blur(5px);
+                        padding-top: 56.25%;
+                    }
+                </style>
+                <wistia-player media-id="ry7q6dmqja" aspect="1.7777777777777777"></wistia-player>
             </div>
         </section>
     </div>
@@ -1226,12 +1244,10 @@
             }
         }
 
-        /* ========== ENVELOPE & LETTER UNLOCK (word-by-word animation) ========== */
+        /* ========== ENVELOPE & LETTER UNLOCK (word‑by‑word animation) ========== */
         function splitTextIntoWords(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return [];
-            const words = [];
-            // Walk through all text nodes inside the container and split into spans
             const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
             const nodesToReplace = [];
             while (walker.nextNode()) {
@@ -1257,7 +1273,6 @@
                 });
                 parent.replaceChild(fragment, node);
             });
-            // Return all .letter-word elements
             return document.querySelectorAll('.letter-word');
         }
 
@@ -1280,24 +1295,15 @@
             if (!appState.letterUnlocked) { pushToast("Complete preceding birthday tasks to break the heart seal! 🔒"); return; }
             const gate = document.getElementById('envelope-letter-gate');
             const letter = document.getElementById('unfolded-letter-box');
-            
-            // Prepare the words in the letter content before expanding
             letterWords = splitTextIntoWords('letter-content');
-            
-            // Ensure all words start hidden
             if (letterWords.length) {
                 gsap.set(letterWords, { opacity: 0, scale: 0.9, rotation: 1, filter: 'blur(2px)', transformOrigin: 'center center' });
-            } else {
-                // Fallback: if no words found (should not happen), use default fade
-                console.warn("No words found, fallback to fade");
             }
-            
             gsap.to(gate, { scale: 0, rotateY: 180, duration: 0.7, ease: 'power2.inOut', onComplete: () => {
                 gate.style.display = 'none';
                 letter.style.display = 'flex';
                 letter.classList.add('unfolded');
                 gsap.fromTo(letter, { y: 30, scale: 0.95 }, { y: 0, scale: 1, duration: 1.2, ease: 'power4.out', onComplete: () => {
-                    // Stagger animation for each word: fancy premium effect
                     if (letterWords.length) {
                         gsap.to(letterWords, {
                             duration: 0.5,
@@ -1335,7 +1341,7 @@
                 confetti({ particleCount: 2, angle: 90, spread: 360, origin: { x: Math.random(), y: 0 }, colors: ['#fbcbc9', '#fceade', '#e8c5c8'] });
                 if (Date.now() < expiry) requestAnimationFrame(frameRain);
             })();
-            pushToast("Happy Birthday to my favorite human, SornA! ❤️");
+            // REMOVED: the "Happy Birthday to my favorite human" toast
         }
 
         function pushToast(msg) {
