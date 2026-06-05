@@ -593,22 +593,6 @@
             transition: opacity 0.4s ease;
         }
 
-        /* 6th page video player styling */
-        .wistia-responsive {
-            position: relative;
-            width: 100%;
-            height: auto;
-            background: black;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
-        }
-        wistia-player {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
         /* Hidden audio player container for voice message */
         .hidden-player {
             position: fixed;
@@ -646,7 +630,7 @@
     <div id="three-canvas-container"></div>
     <div id="ambient-heart-viewport"></div>
 
-    <!-- Background music - restored to original working lofi track -->
+    <!-- Background music - original working lofi track -->
     <audio id="ambient-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
@@ -817,7 +801,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6" onclick="navigateStage(5)">Surprise Wish 🎁</button>
         </section>
 
-        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER -->
+        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER (final stage) -->
         <section id="step-5" class="step-card w-full max-w-2xl flex flex-col items-center gap-3 hidden opacity-0 relative" style="padding-top: 0; margin-top: -1rem;">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(4)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -855,28 +839,6 @@
                 <button class="btn-luxury py-4 rounded-full text-xs font-bold tracking-widest uppercase mt-4 w-full" id="btn-grand-climax" onclick="fireGrandClimax()">Celebrate! 🥂</button>
                 <div id="final-climax-greeting" class="hidden text-center text-xl md:text-2xl font-bold luxury-title py-4 opacity-0 transform translate-y-4 transition-all duration-1000">Happy Birthday, SornA! ❤️</div>
             </article>
-            <button id="btn-to-stage6" class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6 hidden" onclick="navigateStage(6)">Your Man's Love</button>
-        </section>
-
-        <!-- STAGE 6: VIDEO PLAYER -->
-        <section id="step-6" class="step-card w-full max-w-4xl glass-card p-6 md:p-8 flex flex-col items-center justify-center gap-6 hidden opacity-0 relative">
-            <button class="absolute top-6 left-6 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(5)">
-                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                Back
-            </button>
-            <div class="w-full max-w-3xl mx-auto">
-                <script src="https://fast.wistia.com/player.js" async></script>
-                <script src="https://fast.wistia.com/embed/ry7q6dmqja.js" async type="module"></script>
-                <style>
-                    wistia-player[media-id='ry7q6dmqja']:not(:defined) {
-                        background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/ry7q6dmqja/swatch');
-                        display: block;
-                        filter: blur(5px);
-                        padding-top: 56.25%;
-                    }
-                </style>
-                <wistia-player media-id="ry7q6dmqja" aspect="1.7777777777777777"></wistia-player>
-            </div>
         </section>
     </div>
 
@@ -1373,8 +1335,7 @@
                 btn.style.display = 'none';
                 finalTitle.classList.remove('hidden');
                 gsap.to(finalTitle, { opacity: 1, y: 0, duration: 1 });
-                const stage6Btn = document.getElementById('btn-to-stage6');
-                if (stage6Btn) stage6Btn.classList.remove('hidden');
+                // No "Your Man's Love" button or stage 6 anymore
             }});
             if (particles) gsap.to(particles.rotation, { y: '+=3.5', x: '+=1.5', duration: 4.5, ease: 'power3.out' });
             const expiry = Date.now() + 4500;
