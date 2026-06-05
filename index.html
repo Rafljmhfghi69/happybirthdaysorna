@@ -624,6 +624,14 @@
             width: 1px;
             height: 1px;
         }
+
+        /* Make buttons fully clickable */
+        .grid button {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -638,9 +646,10 @@
     <div id="three-canvas-container"></div>
     <div id="ambient-heart-viewport"></div>
 
-    <!-- Background music (lo-fi) -->
+    <!-- Background music - NEW HAPPY BIRTHDAY SONG from Pixabay -->
+    <!-- REPLACE 'YOUR_MP3_LINK_HERE' with the direct MP3 link from Pixabay -->
     <audio id="ambient-audio" loop preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+        <source src="YOUR_MP3_LINK_HERE" type="audio/mpeg">
     </audio>
 
     <!-- Hidden Wistia audio player for your voice message -->
@@ -1148,7 +1157,7 @@
                     appState.musicOn = true;
                     triggerMusicBtn.innerHTML = `<span>⏸️</span> Pause Music`;
                     triggerMusicBtn.classList.add('bg-pink-100');
-                }).catch(() => {});
+                }).catch(err => console.log("Music play error:", err));
             } else {
                 audioNode.pause();
                 appState.musicOn = false;
@@ -1391,4 +1400,4 @@
         };
     </script>
 </body>
-</html
+</html>
