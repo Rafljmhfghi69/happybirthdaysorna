@@ -626,8 +626,10 @@
     <audio id="ambient-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
-    <!-- YOUR VOICE MESSAGE - Fixed with preloader -->
-    <audio id="birthday-voice" preload="auto"></audio>
+    <!-- YOUR VOICE MESSAGE - Fixed with your PasteWaves audio -->
+    <audio id="birthday-voice" preload="auto">
+        <source src="https://pastewaves.com/player/14ece2a1-6fa6-46cd-ab4d-baa0f4bc59bb/audio.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="balloon-container"></div>
 
@@ -861,79 +863,18 @@
             scratchCleared: false,
             letterUnlocked: false,
             climaxFired: false,
-            voiceReady: false  // Track if voice message is loaded
+            voiceReady: true  // We have a direct MP3 source
         };
 
-        // Voice message preloader - fixes the Vocaroo issue
-        const VOICE_MESSAGE_URL = "https://vocaroo.com/media_command.php?media=17KJnE6WBuZK&command=download_mp3";
-        let voiceBlobUrl = null;
-
-        async function preloadVoiceMessage() {
-            const audioEl = document.getElementById('birthday-voice');
-            if (!audioEl) return;
-            
-            try {
-                console.log("Attempting to load voice message from Vocaroo...");
-                // Fetch the Vocaroo URL - it will redirect to the actual MP3
-                const response = await fetch(VOICE_MESSAGE_URL, {
-                    method: 'GET',
-                    redirect: 'follow',
-                    mode: 'cors'
-                });
-                
-                if (response.ok) {
-                    // Get the audio data as blob
-                    const audioBlob = await response.blob();
-                    // Check if it's actually an audio file
-                    if (audioBlob.type.includes('audio') || audioBlob.size > 10000) {
-                        // Create a blob URL for the audio
-                        voiceBlobUrl = URL.createObjectURL(audioBlob);
-                        audioEl.src = voiceBlobUrl;
-                        appState.voiceReady = true;
-                        console.log("Voice message loaded successfully!");
-                        
-                        // Test load the audio
-                        audioEl.load();
-                    } else {
-                        throw new Error("Received non-audio data");
-                    }
-                } else {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-            } catch (error) {
-                console.warn("Could not load voice message from Vocaroo:", error);
-                console.log("Using fallback speech synthesis instead");
-                appState.voiceReady = false;
-            }
-        }
-
-        // Function to play the voice message
+        // Function to play your voice message from PasteWaves
         function playVoiceMessage() {
             const audioEl = document.getElementById('birthday-voice');
-            
-            if (appState.voiceReady && audioEl && audioEl.src && audioEl.src !== "") {
-                // Reset and play
+            if (audioEl && audioEl.src) {
                 audioEl.currentTime = 0;
-                audioEl.play().catch(err => {
-                    console.log("Voice playback failed:", err);
-                    triggerVoiceSynthesisFallback();
+                audioEl.play().catch(error => {
+                    console.log("Voice playback error:", error);
+                    // No fallback - just log the error
                 });
-            } else {
-                // Fallback to speech synthesis
-                triggerVoiceSynthesisFallback();
-            }
-        }
-
-        function triggerVoiceSynthesisFallback() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance("Happy Birthday, SornA!");
-                u.pitch = 1.15;
-                u.rate = 0.9;
-                const voices = window.speechSynthesis.getVoices();
-                const preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
-                if (preferredVoice) u.voice = preferredVoice;
-                window.speechSynthesis.speak(u);
             }
         }
 
@@ -1163,7 +1104,7 @@
             candle.classList.add('extinguished');
             pushToast("Wish sent to the stars! 🌟❤️");
             
-            // Play the voice message (fixed!)
+            // Play the voice message from PasteWaves
             playVoiceMessage();
             
             gsap.timeline()
@@ -1423,7 +1364,6 @@
             initThreeBackground();
             preloadImages();
             preloadPolaroidImages();
-            preloadVoiceMessage();  // Preload the voice message
             setInterval(spawnAmbientHeart, 1200);
             for (let i = 0; i < 4; i++) setTimeout(spawnAmbientHeart, i * 400);
             gsap.set('#handwritten-note-paper', { scale: 0, opacity: 0 });
