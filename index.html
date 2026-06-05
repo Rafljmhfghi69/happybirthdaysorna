@@ -609,8 +609,8 @@
             height: auto;
         }
 
-        /* Hidden audio player container */
-        #hidden-audio-player {
+        /* Hidden audio player containers */
+        .hidden-player {
             position: fixed;
             bottom: 0;
             right: 0;
@@ -620,7 +620,7 @@
             pointer-events: none;
             z-index: -1;
         }
-        #hidden-audio-player wistia-player {
+        .hidden-player wistia-player {
             width: 1px;
             height: 1px;
         }
@@ -646,15 +646,15 @@
     <div id="three-canvas-container"></div>
     <div id="ambient-heart-viewport"></div>
 
-    <!-- Background music - NEW HAPPY BIRTHDAY SONG from Pixabay -->
-    <!-- REPLACE 'YOUR_MP3_LINK_HERE' with the direct MP3 link from Pixabay -->
-    <audio id="ambient-audio" loop preload="auto">
-        <source src="YOUR_MP3_LINK_HERE" type="audio/mpeg">
-    </audio>
-
-    <!-- Hidden Wistia audio player for your voice message -->
-    <div id="hidden-audio-player">
+    <!-- Background music via Wistia (Happy Birthday song) -->
+    <div class="hidden-player" id="bg-music-player">
         <script src="https://fast.wistia.com/player.js" async></script>
+        <script src="https://fast.wistia.com/embed/ijvi4pmr6t.js" async type="module"></script>
+        <wistia-player media-id="ijvi4pmr6t" swatch="false" style="width: 1px; height: 1px;"></wistia-player>
+    </div>
+
+    <!-- Your voice message (Wistia) -->
+    <div class="hidden-player" id="voice-message-player">
         <script src="https://fast.wistia.com/embed/uj8hyus2ec.js" async type="module"></script>
         <wistia-player media-id="uj8hyus2ec" swatch="false" style="width: 1px; height: 1px;"></wistia-player>
     </div>
@@ -818,7 +818,7 @@
             <button class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6" onclick="navigateStage(5)">Surprise Wish 🎁</button>
         </section>
 
-        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER (word‑by‑word animation) -->
+        <!-- STAGE 5: BIRTHDAY WISH + SCRATCH CARD + SEALED LETTER -->
         <section id="step-5" class="step-card w-full max-w-2xl flex flex-col items-center gap-3 hidden opacity-0 relative" style="padding-top: 0; margin-top: -1rem;">
             <button class="absolute top-0 left-0 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(4)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -859,7 +859,7 @@
             <button id="btn-to-stage6" class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6 hidden" onclick="navigateStage(6)">Your Man's Love</button>
         </section>
 
-        <!-- STAGE 6: ONLY VIDEO PLAYER (no text, no emojis) -->
+        <!-- STAGE 6: VIDEO PLAYER -->
         <section id="step-6" class="step-card w-full max-w-4xl glass-card p-6 md:p-8 flex flex-col items-center justify-center gap-6 hidden opacity-0 relative">
             <button class="absolute top-6 left-6 text-xs uppercase font-semibold tracking-widest text-stone-500 hover:text-[#b88b90] transition-colors flex items-center gap-1.5 z-50" onclick="navigateStage(5)">
                 <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
@@ -893,18 +893,60 @@
             climaxFired: false
         };
 
-        // Play your voice message using the hidden Wistia player
-        function playVoiceMessage() {
-            const wistiaPlayer = document.querySelector('wistia-player[media-id="uj8hyus2ec"]');
-            if (wistiaPlayer && typeof wistiaPlayer.play === 'function') {
-                wistiaPlayer.play().catch(err => console.log("Wistia play error:", err));
+        // Get Wistia players
+        let bgMusicPlayer = null;
+        let voicePlayer = null;
+
+        function initPlayers() {
+            bgMusicPlayer = document.querySelector('#bg-music-player wistia-player');
+            voicePlayer = document.querySelector('#voice-message-player wistia-player');
+        }
+
+        // Play / Pause background music
+        function toggleMusic() {
+            if (!bgMusicPlayer) {
+                initPlayers();
+                if (!bgMusicPlayer) {
+                    console.log("Music player not ready");
+                    setTimeout(toggleMusic, 500);
+                    return;
+                }
+            }
+            if (!appState.musicOn) {
+                bgMusicPlayer.play().then(() => {
+                    appState.musicOn = true;
+                    const btn = document.getElementById('trigger-music');
+                    if (btn) {
+                        btn.innerHTML = `<span>⏸️</span> Pause Music`;
+                        btn.classList.add('bg-pink-100');
+                    }
+                }).catch(err => console.log("Music play error:", err));
             } else {
-                console.log("Wistia player not ready yet, retrying in 0.5s...");
-                setTimeout(playVoiceMessage, 500);
+                bgMusicPlayer.pause().then(() => {
+                    appState.musicOn = false;
+                    const btn = document.getElementById('trigger-music');
+                    if (btn) {
+                        btn.innerHTML = `<span>🎵</span> Play Music`;
+                        btn.classList.remove('bg-pink-100');
+                    }
+                }).catch(err => console.log("Music pause error:", err));
             }
         }
 
-        // ========== HANDWRITTEN NOTE IMAGES (18 ImgBB links) ==========
+        // Play voice message (candle blow)
+        function playVoiceMessage() {
+            if (!voicePlayer) {
+                initPlayers();
+                if (!voicePlayer) {
+                    console.log("Voice player not ready, retrying...");
+                    setTimeout(playVoiceMessage, 500);
+                    return;
+                }
+            }
+            voicePlayer.play().catch(err => console.log("Voice play error:", err));
+        }
+
+        // ========== HANDWRITTEN NOTE IMAGES ==========
         const handwrittenNoteImages = [
             "https://i.ibb.co.com/hJbdPZtH/photo-2026-06-03-17-03-23.jpg",
             "https://i.ibb.co.com/jkCN6WyG/photo-2026-06-03-19-44-57.jpg",
@@ -927,7 +969,7 @@
         ];
         let currentHandwrittenIndex = -1;
 
-        // ========== POLAROID PHOTOS & CAPTIONS (ALL 7 PHOTOS) ==========
+        // ========== POLAROID PHOTOS ==========
         const photoList = [
             "https://i.ibb.co.com/qLpHz6k0/photo-2026-06-04-23-17-40.jpg",
             "https://i.ibb.co.com/0jn3fY5X/Screenshot-20260604-233225.jpg",
@@ -1130,7 +1172,7 @@
             candle.classList.add('extinguished');
             pushToast("Wish sent to the stars! 🌟❤️");
             
-            // Play the recorded voice message via Wistia
+            // Play the recorded voice message
             playVoiceMessage();
             
             gsap.timeline()
@@ -1148,24 +1190,7 @@
                 });
         }
 
-        /* ========== MUSIC & BALLOONS ========== */
-        const audioNode = document.getElementById('ambient-audio');
-        const triggerMusicBtn = document.getElementById('trigger-music');
-        function toggleMusic() {
-            if (!appState.musicOn) {
-                audioNode.play().then(() => {
-                    appState.musicOn = true;
-                    triggerMusicBtn.innerHTML = `<span>⏸️</span> Pause Music`;
-                    triggerMusicBtn.classList.add('bg-pink-100');
-                }).catch(err => console.log("Music play error:", err));
-            } else {
-                audioNode.pause();
-                appState.musicOn = false;
-                triggerMusicBtn.innerHTML = `<span>🎵</span> Play Music`;
-                triggerMusicBtn.classList.remove('bg-pink-100');
-            }
-        }
-
+        /* ========== BALLOONS ========== */
         function launchBalloonBurst() {
             const btn = document.getElementById('trigger-balloons');
             btn.classList.add('bg-pink-100');
@@ -1190,7 +1215,7 @@
             holder.appendChild(el); el.addEventListener('animationend', () => el.remove());
         }
 
-        /* ========== HANDWRITTEN NOTES (SEQUENTIAL) ========== */
+        /* ========== HANDWRITTEN NOTES ========== */
         function drawReason(event) {
             if (!handwrittenNoteImages.length) { pushToast("Please add handwritten note images first! 📸"); return; }
             currentHandwrittenIndex = (currentHandwrittenIndex + 1) % handwrittenNoteImages.length;
@@ -1274,7 +1299,7 @@
             }
         }
 
-        /* ========== ENVELOPE & LETTER UNLOCK (word‑by‑word animation) ========== */
+        /* ========== ENVELOPE & LETTER UNLOCK ========== */
         function splitTextIntoWords(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return [];
@@ -1390,6 +1415,7 @@
             initThreeBackground();
             preloadImages();
             preloadPolaroidImages();
+            initPlayers();
             setInterval(spawnAmbientHeart, 1200);
             for (let i = 0; i < 4; i++) setTimeout(spawnAmbientHeart, i * 400);
             gsap.set('#handwritten-note-paper', { scale: 0, opacity: 0 });
