@@ -609,7 +609,7 @@
             height: auto;
         }
 
-        /* Hidden audio player containers */
+        /* Hidden audio player container for voice message */
         .hidden-player {
             position: fixed;
             bottom: 0;
@@ -646,15 +646,14 @@
     <div id="three-canvas-container"></div>
     <div id="ambient-heart-viewport"></div>
 
-    <!-- Background music via Wistia (Happy Birthday song) -->
-    <div class="hidden-player" id="bg-music-player">
-        <script src="https://fast.wistia.com/player.js" async></script>
-        <script src="https://fast.wistia.com/embed/ijvi4pmr6t.js" async type="module"></script>
-        <wistia-player media-id="ijvi4pmr6t" swatch="false" style="width: 1px; height: 1px;"></wistia-player>
-    </div>
+    <!-- Background music - restored to original working lofi track -->
+    <audio id="ambient-audio" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+    </audio>
 
-    <!-- Your voice message (Wistia) -->
+    <!-- Your voice message (Wistia) - unchanged and working -->
     <div class="hidden-player" id="voice-message-player">
+        <script src="https://fast.wistia.com/player.js" async></script>
         <script src="https://fast.wistia.com/embed/uj8hyus2ec.js" async type="module"></script>
         <wistia-player media-id="uj8hyus2ec" swatch="false" style="width: 1px; height: 1px;"></wistia-player>
     </div>
@@ -893,43 +892,33 @@
             climaxFired: false
         };
 
-        // Get Wistia players
-        let bgMusicPlayer = null;
+        // Get voice Wistia player
         let voicePlayer = null;
 
         function initPlayers() {
-            bgMusicPlayer = document.querySelector('#bg-music-player wistia-player');
             voicePlayer = document.querySelector('#voice-message-player wistia-player');
         }
 
-        // Play / Pause background music
+        // Play / Pause background music (using restored audio element)
+        const audioNode = document.getElementById('ambient-audio');
+        const triggerMusicBtn = document.getElementById('trigger-music');
+
         function toggleMusic() {
-            if (!bgMusicPlayer) {
-                initPlayers();
-                if (!bgMusicPlayer) {
-                    console.log("Music player not ready");
-                    setTimeout(toggleMusic, 500);
-                    return;
-                }
-            }
             if (!appState.musicOn) {
-                bgMusicPlayer.play().then(() => {
+                audioNode.play().then(() => {
                     appState.musicOn = true;
-                    const btn = document.getElementById('trigger-music');
-                    if (btn) {
-                        btn.innerHTML = `<span>⏸️</span> Pause Music`;
-                        btn.classList.add('bg-pink-100');
+                    if (triggerMusicBtn) {
+                        triggerMusicBtn.innerHTML = `<span>⏸️</span> Pause Music`;
+                        triggerMusicBtn.classList.add('bg-pink-100');
                     }
                 }).catch(err => console.log("Music play error:", err));
             } else {
-                bgMusicPlayer.pause().then(() => {
-                    appState.musicOn = false;
-                    const btn = document.getElementById('trigger-music');
-                    if (btn) {
-                        btn.innerHTML = `<span>🎵</span> Play Music`;
-                        btn.classList.remove('bg-pink-100');
-                    }
-                }).catch(err => console.log("Music pause error:", err));
+                audioNode.pause();
+                appState.musicOn = false;
+                if (triggerMusicBtn) {
+                    triggerMusicBtn.innerHTML = `<span>🎵</span> Play Music`;
+                    triggerMusicBtn.classList.remove('bg-pink-100');
+                }
             }
         }
 
