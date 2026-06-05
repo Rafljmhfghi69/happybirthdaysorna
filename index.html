@@ -622,12 +622,13 @@
     <div id="three-canvas-container"></div>
     <div id="ambient-heart-viewport"></div>
 
-    <!-- UPDATED MUSIC: Calm lo-fi track (direct MP3) -->
+    <!-- Background music (lo-fi) -->
     <audio id="ambient-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
+    <!-- YOUR VOICE MESSAGE (from Vocaroo) -->
     <audio id="birthday-voice" preload="auto">
-        <source src="path-to-your-recorded-voice.mp3" type="audio/mpeg">
+        <source src="https://vocaroo.com/media_command.php?media=17KJnE6WBuZK&command=download_mp3" type="audio/mpeg">
     </audio>
 
     <div id="balloon-container"></div>
@@ -822,13 +823,11 @@
                     <p>This letter is a promise—to always cheer for your dreams, to stand by you in quiet moments, and to treasure the lovely personality you are.</p>
                     <p>May the road ahead bring you boundless success and all the cozy joy in the world.</p>
                     <p class="text-right cursive-title text-3xl mt-2">With all my heart,</p>
-                    <!-- CHANGED: "Your Favorite Human" → "Amin" -->
                     <p class="text-right text-xs text-stone-400 italic">Amin</p>
                 </div>
                 <button class="btn-luxury py-4 rounded-full text-xs font-bold tracking-widest uppercase mt-4 w-full" id="btn-grand-climax" onclick="fireGrandClimax()">Celebrate! 🥂</button>
                 <div id="final-climax-greeting" class="hidden text-center text-xl md:text-2xl font-bold luxury-title py-4 opacity-0 transform translate-y-4 transition-all duration-1000">Happy Birthday, SornA! ❤️</div>
             </article>
-            <!-- BUTTON: emoji removed -->
             <button id="btn-to-stage6" class="btn-luxury px-10 py-3.5 rounded-full text-sm font-semibold tracking-wide mt-6 hidden" onclick="navigateStage(6)">Your Man's Love</button>
         </section>
 
@@ -1092,8 +1091,14 @@
             candle.classList.add('extinguished');
             pushToast("Wish sent to the stars! 🌟❤️");
             const customVoice = document.getElementById('birthday-voice');
-            if (customVoice && customVoice.src && !customVoice.src.includes("path-to-your-recorded-voice.mp3")) customVoice.play().catch(()=>triggerVoiceSynthesisFallback());
-            else triggerVoiceSynthesisFallback();
+            if (customVoice && customVoice.src && !customVoice.src.includes("path-to-your-recorded-voice.mp3")) {
+                customVoice.play().catch(err => {
+                    console.log("Voice note playback failed:", err);
+                    triggerVoiceSynthesisFallback();
+                });
+            } else {
+                triggerVoiceSynthesisFallback();
+            }
             gsap.timeline()
                 .set(smokePuff, { opacity: 1 })
                 .to(smokeLine, { strokeDashoffset: 0, duration: 0.5, ease: 'power1.out' })
@@ -1114,6 +1119,9 @@
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance("Happy Birthday, SornA!");
                 u.pitch = 1.15; u.rate = 0.9;
+                const voices = window.speechSynthesis.getVoices();
+                const preferredVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Microsoft')));
+                if (preferredVoice) u.voice = preferredVoice;
                 window.speechSynthesis.speak(u);
             }
         }
@@ -1341,7 +1349,7 @@
                 confetti({ particleCount: 2, angle: 90, spread: 360, origin: { x: Math.random(), y: 0 }, colors: ['#fbcbc9', '#fceade', '#e8c5c8'] });
                 if (Date.now() < expiry) requestAnimationFrame(frameRain);
             })();
-            // REMOVED: the "Happy Birthday to my favorite human" toast
+            // No toast message anymore
         }
 
         function pushToast(msg) {
