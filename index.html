@@ -608,6 +608,22 @@
             width: 100%;
             height: auto;
         }
+
+        /* Hidden audio player container */
+        #hidden-audio-player {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        #hidden-audio-player wistia-player {
+            width: 1px;
+            height: 1px;
+        }
     </style>
 </head>
 <body>
@@ -626,10 +642,13 @@
     <audio id="ambient-audio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
     </audio>
-    <!-- YOUR VOICE MESSAGE - Fixed with your PasteWaves audio -->
-    <audio id="birthday-voice" preload="auto">
-        <source src="https://pastewaves.com/player/14ece2a1-6fa6-46cd-ab4d-baa0f4bc59bb/audio.mp3" type="audio/mpeg">
-    </audio>
+
+    <!-- Hidden Wistia audio player for your voice message -->
+    <div id="hidden-audio-player">
+        <script src="https://fast.wistia.com/player.js" async></script>
+        <script src="https://fast.wistia.com/embed/uj8hyus2ec.js" async type="module"></script>
+        <wistia-player media-id="uj8hyus2ec" swatch="false" style="width: 1px; height: 1px;"></wistia-player>
+    </div>
 
     <div id="balloon-container"></div>
 
@@ -862,19 +881,17 @@
             cakeAssembled: false,
             scratchCleared: false,
             letterUnlocked: false,
-            climaxFired: false,
-            voiceReady: true  // We have a direct MP3 source
+            climaxFired: false
         };
 
-        // Function to play your voice message from PasteWaves
+        // Play your voice message using the hidden Wistia player
         function playVoiceMessage() {
-            const audioEl = document.getElementById('birthday-voice');
-            if (audioEl && audioEl.src) {
-                audioEl.currentTime = 0;
-                audioEl.play().catch(error => {
-                    console.log("Voice playback error:", error);
-                    // No fallback - just log the error
-                });
+            const wistiaPlayer = document.querySelector('wistia-player[media-id="uj8hyus2ec"]');
+            if (wistiaPlayer && typeof wistiaPlayer.play === 'function') {
+                wistiaPlayer.play().catch(err => console.log("Wistia play error:", err));
+            } else {
+                console.log("Wistia player not ready yet, retrying in 0.5s...");
+                setTimeout(playVoiceMessage, 500);
             }
         }
 
@@ -1104,7 +1121,7 @@
             candle.classList.add('extinguished');
             pushToast("Wish sent to the stars! 🌟❤️");
             
-            // Play the voice message from PasteWaves
+            // Play the recorded voice message via Wistia
             playVoiceMessage();
             
             gsap.timeline()
@@ -1374,4 +1391,4 @@
         };
     </script>
 </body>
-</html>
+</html
